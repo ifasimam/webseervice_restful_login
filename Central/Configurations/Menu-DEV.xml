@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<menu>
+  <menu-item Id="menu-1" Enabled="True" Visible="True" Url="Home" Text="Dashboard" Description="Back to Home page" Glyph="tachometer" />
+  <menu-item Id="menu-2" Enabled="True" Visible="True" Url="#" Text="Starter Page" Description="Starter Page Menu" Glyph="desktop">
+    <menu-item Id="submenu-21" Enabled="True" Visible="True" Url="Blank" Text="Blank Page" Description="Blank page" Glyph="caret-right" />
+    <menu-item Id="submenu-22" Enabled="True" Visible="True" Url="DatagridFixed" Text="Fixed Datagrid" Description="Fixed Datagrid sample page" Glyph="caret-right" />
+    <menu-item Id="submenu-23" Enabled="True" Visible="True" Url="DatagridLazy" Text="Lazy Datagrid" Description="Lazy Datagrid sample page" Glyph="caret-right" />
+    <menu-item Id="submenu-24" Enabled="True" Visible="True" Url="Login" Text="Login" Description="Login page" Glyph="user" />
+    <menu-item Id="submenu-25" Enabled="True" Visible="True" Url="ChangePassword" Text="Change Password" Description="Change passsword page" Glyph="eraser" />
+    <menu-item Id="submenu-26" Enabled="True" Visible="True" Url="Visualization" Text="Visualization" Description="Visualization page" Glyph="caret-right" />
+  </menu-item>
+</menu>

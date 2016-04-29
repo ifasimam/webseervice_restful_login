@@ -1,0 +1,1 @@
+﻿update  TB_R_SFN_CENTRAL  set JUDGE='2' where BDNO=@BDNO AND MSG_NO=@MSG_NO

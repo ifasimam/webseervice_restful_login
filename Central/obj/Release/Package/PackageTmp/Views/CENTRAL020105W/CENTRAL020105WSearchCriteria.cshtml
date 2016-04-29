@@ -1,0 +1,64 @@
+﻿@using Central.Models.CENTRAL020105W;
+
+@{
+    List<CENTRAL020105W> ComboPlant = (List<CENTRAL020105W>)ViewData["ComboPlant"];
+    List<CENTRAL020105W> ComboTerminal = (List<CENTRAL020105W>)ViewData["ComboTerminal"];
+    List<CENTRAL020105W> ComboPartCode = (List<CENTRAL020105W>)ViewData["ComboPartCode"];
+}
+<form role="form" class="form-horizontal _criteria" id="searchForm">
+    <div class="row"  id="allclear">
+        <div class="col-xs-12 col-sm-6 col-md-2">
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-4 control-label required-left text-muted">Plant</label>
+
+                <div class="col-xs-8 col-sm-9 col-md-8">
+                    <select id="cmbPlant" class="form-control" style="width: 130px">
+                        <option value="">ALL</option>
+                        @foreach(CENTRAL020105W Item in ComboPlant)
+                        {
+                         <option value="@Item.PLANT_CD">@Item.PLANT_CD</option>
+                        }
+
+                    </select>
+                </div>
+            </div>
+            <div class="form-group form-group-xs">
+                <label class="col-xs-5 col-sm-4 col-md-4 control-label required-left text-muted">Terminal</label>
+
+                <div class="col-xs-8 col-sm-9 col-md-8">
+                   <select id="cmbTerm" class="form-control" style="width: 130px">
+                        <option value="">ALL</option>
+                           @foreach (CENTRAL020105W Item in ComboTerminal)
+                        {
+                                 <option value="@Item.TERM_CD">@Item.TERM_CD</option>
+                        }
+                    </select>
+                </div>
+            </div>
+             
+        </div>
+
+        <div class="col-xs-4 col-sm-3 col-md-2">
+
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-6 control-label text-muted">Part Code</label>
+                <div class="col-xs-8 col-sm-9 col-md-6">
+                    <select id="cmbPartCD" class="form-control" style="width: 130px">
+                        <option value="">ALL</option>
+                        @foreach (CENTRAL020105W item in ComboPartCode)
+                        {
+                            <option value="@item.PART_CD">@item.PART_CD</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-6 control-label text-muted">Part Name</label>
+                <div class="col-xs-8 col-sm-9 col-md-6">
+                    <input type="text" id="partName" style="width: 130px" />
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

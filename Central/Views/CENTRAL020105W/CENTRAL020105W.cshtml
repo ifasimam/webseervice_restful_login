@@ -1,0 +1,596 @@
+﻿@************************************************************************************************
+ * Program History : 
+ * 
+ * Project Name     : CORPORATE INFORMATION SYSTEM
+ * Client Name      : PT. TMMIN (Toyota Manufacturing Motor Indonesia)
+ * Function Id      : CIS040104
+ * Function Name    :  03 Data Gathering & Lobbying Activities
+ * Function Group   :  03 Data Gathering & Lobbying Activities
+ * Program Id       : CIS040104
+ * Program Name     :  03 Data Gathering & Lobbying Activities
+ * Program Type     : View
+ * Description      : 
+ * Environment      : .NET 4.0, ASP MVC 4.0
+ * Author           : FID.Hartono
+ * Version          : 01.00.00
+ * Creation Date    : 17/02/2016 10:14:40
+ * 
+ * Update history     Re-fix date       Person in charge      Description 
+ *                    24/2/2016         fid.Hartono
+ * Copyright(C) 2016 - . All Rights Reserved                                                                                              
+ *************************************************************************************************@
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section HeadScript{
+    <!-- Bootstrap Datepicker css -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/datepicker.css")" />
+    <!-- Daterange picker css -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/daterangepicker.css")" />
+    <!-- Dropzone file css -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/dropzone.css")" />
+    
+    <style type="text/css">
+        .modal-icon
+        {
+            height: 35px;
+        }
+        
+        .twitter-typeahead
+        {
+            width: 100%;
+        }
+    </style>
+}
+
+<div class="hidden-xs">
+    @Html.Partial("CENTRAL020105WSearchCriteria")
+
+    <div class="text-center" style="margin-bottom: 3px;">
+        <hr id="hrsrc" style="margin:0;padding:0;" />
+        @*<button onclick="javascript:toggleSearch()" type="button" class="fa fa-chevron-up btn btn-primary btn-xs btn-tiny-down" id="toogle-search"></button>*@
+    </div>
+        @Html.Partial("CENTRAL020105WPopupInformation")
+   <div id="tablegrid">
+        @Html.Partial("CENTRAL020105WSimpleGrid")
+    
+       
+@*        @Html.Partial("CIS040104AddComment")
+        @Html.Partial("CIS040104PopupInformation")
+
+         @Html.Partial("CIS040104GridMaterial")
+  @Html.Partial("CIS040104UploadPopup")*@
+    </div>
+  
+</div>
+ 
+
+@section BodyScript{
+    <!-- Bootstrap Datepicker js -->
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/bootstrap-datepicker.js")"></script>
+    <!-- Daterange picker js -->
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/moment.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/daterangepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/jquery.fileDownload.js")"></script>
+    <!-- Dropzone file js -->
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/dropzone.js")"></script>
+
+    <script src="@Url.Content("~/Content/Bootstrap/js/typeahead.jquery.js")"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //onSearchData(1);
+            ace.vars['PLANT'] = ["Plant 1", "Plant 2", "Plant 3", "Plant 4", "Plant 5"];
+
+            $('#files').ace_file_input({
+                style: 'well',
+                btn_choose: 'Drop files here or click to choose',
+                btn_change: null,
+                no_icon: 'ace-icon fa fa-cloud-upload',
+                droppable: true,
+                thumbnail: 'small'
+  
+                ,
+                preview_error: function (filename, error_code) {
+              
+                }
+
+            }).on('change', function () {
+                var files = $(this)[0].files;
+                for (var i = 0; i < files.length; i++) {
+                    var fileext = files[i].name.split('.').pop().toLowerCase();
+                    if (fileext == "xlsx" || fileext == "xls") {
+
+                    }
+                    else {
+                        $("#popup-msg-warning").text("Select (.xls) or (.xlsx) file only.");
+                        $("#message-popup-warning").modal();
+                        $('#files').ace_file_input('reset_input');
+                    }
+                }
+            });
+
+        });
+        $(document).ready(function () {
+            $("#btnCom2").show();
+            $("div#DivMaster").show();
+            $("div#DivMainInfo").hide();
+            $("div#DivApproval").hide();
+            $("div#DivReport").hide();
+            $("#btnlookup").click(function () {
+                $("#gridlookup").modal()
+            });
+
+            $("#btnclearlookup").click(function () {
+                $("#txtsearchlookup").val('');
+            });
+
+            $(".btn-xs").click(function () {
+                var valbtn = $(this).val();
+                $("#gridlookup").modal('hide')
+            });
+             
+            $(".btn-edit").click(function () {
+                if ($(".grid-checkbox-body:checked").length == 0)
+                    $("#selected-0-confirm").modal();
+                else if ($(".check:checked").length == 1) {
+                    $("#selected-info").modal();
+                    $("#infoModal").html('Data editing ...');
+                }
+            });
+
+            $(".btn-delete").click(function () {
+                if ($(".grid-checkbox-body:checked").length == 0)
+                    $("#selected-0-confirm").modal();
+                else
+                    $("#delete-confirm").modal();
+            });
+            
+            $(".btn-reject").click(function () {
+                if ($(".grid-checkbox-body:checked").length == 0)
+                    $("#selected-0-confirm").modal();
+                else
+                    $("#reject-confirm").modal();
+            });
+
+            $(".btn-approve").click(function () {
+                if ($(".grid-checkbox-body:checked").length == 0)
+                    $("#selected-0-confirm").modal();
+                else {
+                    $("#selected-info").modal();
+                    $("#infoModal").html('Data has been approved.');
+                }
+            });
+
+            $("._datepicker").datepicker();
+
+            /*Checkbox all*/
+            checkAll();
+            $("#checkall2").click(function () {
+                if ($("#checkall2").is(":checked")) {
+                    $(".grid-checkbox-body").prop('checked', true);
+                } else {
+                    $(".grid-checkbox-body").prop('checked', false);
+                }
+            });
+            $("#checkall3").click(function () {
+                if ($("#checkall3").is(":checked")) {
+                    $(".grid-checkbox-body").prop('checked', true);
+                } else {
+                    $(".grid-checkbox-body").prop('checked', false);
+                }
+            });
+            $("#checkall4").click(function () {
+                if ($("#checkall4").is(":checked")) {
+                    $(".grid-checkbox-body").prop('checked', true);
+                } else {
+                    $(".grid-checkbox-body").prop('checked', false);
+                }
+            });
+            $("#gridLookup-checkAll").click(function () {
+                if ($("#gridLookup-checkAll").is(":checked")) {
+                    $( ".gridLookup-checkbox-body").prop('checked', true);
+                } else {
+                    $( ".gridLookup-checkbox-body").prop('checked', false);
+                }
+            });
+            $("#gridLookup-checkAll2").click(function () {
+                if ($("#gridLookup-checkAll2").is(":checked")) {
+                    $(".gridLookup-checkbox-body").prop('checked', true);
+                } else {
+                    $(".gridLookup-checkbox-body").prop('checked', false);
+                }
+            });
+            $("#gridLookup-checkAll3").click(function () {
+                if ($("#gridLookup-checkAll3").is(":checked")) {
+                    $(".gridLookup-checkbox-body").prop('checked', true);
+                } else {
+                    $(".gridLookup-checkbox-body").prop('checked', false);
+                }
+            });
+            $("#gridLookup-checkAll4").click(function () {
+                if ($("#gridLookup-checkAll4").is(":checked")) {
+                    $(".gridLookup-checkbox-body").prop('checked', true);
+                } else {
+                    $(".gridLookup-checkbox-body").prop('checked', false);
+                }
+            });
+            $("#popupLookup-checkAll").click(function () {
+                if ($("#popupLookup-checkAll").is(":checked")) {
+                    $( ".popupLookup-checkbox-body").prop('checked', true);
+                } else {
+                    $( ".popupLookup-checkbox-body").prop('checked', false);
+                }
+            });
+            $("#popupLookup-checkAll2").click(function () {
+                if ($("#popupLookup-checkAll2").is(":checked")) {
+                    $(".popupLookup-checkbox-body").prop('checked', true);
+                } else {
+                    $(".popupLookup-checkbox-body").prop('checked', false);
+                }
+            });
+            $("#popupLookup-checkAll3").click(function () {
+                if ($("#popupLookup-checkAll3").is(":checked")) {
+                    $(".popupLookup-checkbox-body").prop('checked', true);
+                } else {
+                    $(".popupLookup-checkbox-body").prop('checked', false);
+                }
+            });
+            $("#popupLookup-checkAll4").click(function () {
+                if ($("#popupLookup-checkAll4").is(":checked")) {
+                    $(".popupLookup-checkbox-body").prop('checked', true);
+                } else {
+                    $(".popupLookup-checkbox-body").prop('checked', false);
+                }
+            });
+            //datepicker plugin
+		    //link
+		    $('.date-picker').datepicker({
+		        autoclose: true,
+		        todayHighlight: true
+		    })
+			//show datepicker when clicking on the icon
+			.next().on(ace.click_event, function () {
+				$(this).prev().focus();
+			});
+
+		    //or change it into a date range picker
+		    $('.input-daterange').datepicker({ autoclose: true });
+
+
+		    //to translate the daterange picker, please copy the "examples/daterange-fr.js" contents here before initialization
+		    $('input[name=date-range-picker]').daterangepicker({
+                format: 'DD/MM/YYYY',
+		        'applyClass': 'btn-sm btn-success',
+		        'cancelClass': 'btn-sm btn-default',
+		        locale: {
+		            applyLabel: 'Apply',
+		            cancelLabel: 'Cancel',
+		        }
+		    })
+			.prev().on(ace.click_event, function () {
+				$(this).next().focus();
+			});
+
+
+            //for generate title ellipsis class
+            $.each( $('.ellipsis'), function(i, a) {
+                var aih = a.innerHTML;
+                aih = aih.replace(/&amp;/ig, '&');
+                a.title= aih;
+            });
+  
+
+        });
+     
+        
+      
+ 
+       
+
+        //End of Added By FID) Asep
+        
+        function popuplookupSelected(setValue) {
+            var result = '';
+            if (($(".popupLookup-checkbox-body:checked").length > 0)&&(setValue == 'OK')) {
+                for(i=0; i<$(".popupLookup-checkbox-body").length; i++) {
+                    if ($(".popupLookup-checkbox-body")[i].checked)
+                        result = result + ((result != '')?';':'') + $(".popupLookup-checkbox-body")[i].dataset.value;
+                }
+                $("#txtUsername").val(result);
+            }
+
+            if (setValue == 'CS'){
+                $(".popupLookup-checkbox-body").prop('checked', false);
+                $("#txtUsername").val('');
+            }
+        }
+
+        function gridlookupSelected(setValue) {
+            var result = '';
+            if (($(".gridLookup-checkbox-body:checked").length > 0)&&(setValue == 'OK')) {
+                for(i=0; i<$(".gridLookup-checkbox-body").length; i++) {
+                    if ($(".gridLookup-checkbox-body")[i].checked)
+                        result = result + ((result != '')?';':'') + $(".gridLookup-checkbox-body")[i].dataset.value;
+                }
+//                $("#btn-value").html(result);
+                $("#txtVendor").val(result);
+            }
+
+            if (setValue == 'CS'){
+                $(".gridLookup-checkbox-body").prop('checked', false);
+                $("#txtVendor").val('Select item');
+            }
+
+            closePopup();
+        }
+
+        function openPopup() {
+            $("#txtsearchlookup").val('');
+            if ($("#btn-group").hasClass('open'))
+                $("#btn-group").removeClass('open')
+            else
+                $("#btn-group").addClass('open')
+        }
+
+        function closePopup() {
+            $("#txtsearchlookup").val('');
+            $("#btn-group").removeClass('open')
+        }
+
+        function clearPopupFilter() {
+            $("#txtsearchlookup").val('');
+        }
+
+        function clearPopupFilter2() {
+            $("#txtPopupSearchLookup").val('');
+        }
+ 
+        function CancelEditIssue() {
+            $('.selected .display').removeClass('hide');
+            $('.selected .edit').addClass('hide');
+            disableEdit(false);
+            ResetEditIssue();
+           // $('.selected input[type="checkbox"]').prop('disabled', false);
+        }
+       
+
+        function isChecked(e) {
+            var curDt = new Date();
+            if ($(e).prop('checked')) {
+                $(e).closest($('tr')).addClass('selected');
+                $('tr input[type="checkbox"]').prop('disabled', true);
+                $(e).prop('disabled', false);
+                $('#editBtn').prop('disabled', false);
+
+                var meetDt = Date.parse($('.selected .display #meetDt').text().trim());
+                if (meetDt < curDt) {
+                    $('#editBtn').prop('disabled', false);
+                }
+            }
+            else {
+                $(e).closest($('tr')).removeClass('selected');
+                $('tr input[type="checkbox"]').prop('disabled', false);
+                $('#editBtn').prop('disabled', true);
+            }
+        }
+
+     
+        function searchData(Page) {
+            var page = Page != undefined ? (Page != '' || Page != null ? Page : 1) : 1;
+            var length = $(".page-size").val() != undefined ? ($(".page-size").val() != '' || $(".page-size").val() != null ? $(".page-size").val() : 10) : 10;
+            var cmbPlant = $("#cmbPlant :selected").val();
+            var cmbTerm = $("#cmbTerm :selected").text().trim();
+            var cmbPartCD = $("#cmbPartCD :selected").text().trim();
+            var partName = $("#partName").val();
+    
+       
+            if (cmbPlant == "ALL") {
+                cmbPlant = "";
+            }
+            if (cmbTerm == "ALL") {
+                cmbTerm = "";
+            }
+            if (cmbPartCD == "ALL") {
+                cmbPartCD = "";
+            }
+           
+            $.ajax({
+                type: 'POST',
+                url: '@Html.Toyota().Page.GetActionUrl("GetTermFromtting")',
+                data: {
+                    plant: cmbPlant,
+                    terminal: cmbTerm,
+                    partcode: cmbPartCD,
+                    partdesc: partName,
+                    p_page: page,
+                    p_length: length
+                },
+                success: function (result) {
+                    $('#tablegrid').html(result);
+                    checkAll();
+
+                },
+                error: function (result) {
+                    $("#message-popup-warning").modal();
+                    $("#popup-msg-warning").html("Data Error");
+                }
+            })
+        }
+        
+        function CancelEdit() {
+            $('#AddNew').removeClass('hide');
+            $('#EditNew').removeClass('hide');
+            $('#DeleteNew').removeClass('hide');
+            $('#btnSearch').removeClass('hide');
+            $('#btnClearSearch').removeClass('hide');
+
+            $('#SaveEdit').addClass('hide');
+            $('#CancelEdit').addClass('hide');
+
+            $('#PlanCD_val').addClass('hide');
+            $('#PlanCD').removeClass('hide');
+
+            $('#termCD_val').addClass('hide');
+            $('#termCD').removeClass('hide');
+
+            $('#partCD_val').addClass('hide');
+            $('#partCD').removeClass('hide');
+
+            $('#PartDesc_val').addClass('hide');
+            $('#PartDesc').removeClass('hide');
+
+            $('#ColV1_val').addClass('hide');
+            $('#ColV1').removeClass('hide');
+
+            $('#ConsVal1_val').addClass('hide');
+            $('#ConsVal1').removeClass('hide');
+
+            $('#ColVI2_val').addClass('hide');
+            $('#ColVI2').removeClass('hide');
+
+            $('#ConsVal2_val').addClass('hide');
+            $('#ConsVal2').removeClass('hide');
+
+            $('#ColVI3_val').addClass('hide');
+            $('#ColVI3').removeClass('hide');
+
+            $('#ConsVal3_val').addClass('hide');
+            $('#ConsVal3').removeClass('hide');
+
+            $('#format_No_val').addClass('hide');
+            $('#format_No').removeClass('hide');
+
+            $('#format_val_val').addClass('hide');
+            $('#format_val').removeClass('hide');
+
+            $('#format_start_val').addClass('hide');
+            $('#format_start').removeClass('hide');
+
+            $('#format_length_val').addClass('hide');
+            $('#format_length').removeClass('hide');
+
+            $('#valid_fr_val').addClass('hide');
+            $('#valid_fr').removeClass('hide');
+
+            $('#valid_to_val').addClass('hide');
+            $('#valid_to').removeClass('hide');
+
+            $('#changeBy_val').addClass('hide');
+            $('#changeBy').removeClass('hide');
+
+            $('#changeDt_val').addClass('hide');
+            $('#changeDt').removeClass('hide');
+
+            $('#UpdateBy_val').addClass('hide');
+            $('#UpdateBy').removeClass('hide');
+
+            $('#UpdateDt_val').addClass('hide');
+            $('#UpdateDt').removeClass('hide');
+
+        }
+        function AddNew() {
+            var ID = $('.selected #PlID').text().trim();
+            var base_url = '@Html.Toyota().Page.BaseUrl';
+            location.href = base_url + "/CENTRAL020106W?FLG="+"ADD";
+        }
+     
+        function EditData() {
+             
+            var ID = $('.selected #PlID').text().trim();
+            var base_url = '@Html.Toyota().Page.BaseUrl';
+            var n = $("input.check-agenda:checked").length;
+            if (n > 0) {
+                location.href = base_url + "/CENTRAL020106W?ID=" + ID.trim()+"&FLAG="+"Edit"+"&FLG="+"ADD";
+            }
+            else {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Please Select data!");
+            }
+         
+        }
+        function DeleteGrid() {
+            var ID = $('.selected #PlID').text().trim();
+            if (ID != '') {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Html.Toyota().Page.GetActionUrl("GetDeleteGrid")',
+                    data: {
+                        PlantID :ID
+
+                    },
+                    success: function (result) {
+                        $("#message-popup-info").modal();
+                        $("#popup-msg-info").html("Data has been saved");
+                        ClearSearch();
+                },
+                    error: function (result) {
+                        $("#message-popup-warning").modal();
+                        $("#popup-msg-warning").html("Data cannot to delete");
+                }
+            
+            });
+            }
+            else
+            {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Please Select data!");
+            }
+        }
+            
+        function ClearSearch() {
+            $.ajax({
+                type: 'POST',
+                url: '@Html.Toyota().Page.GetActionUrl("GetTermFromtting")',
+                data: {
+                    plant: '',
+                    terminal: '',
+                    partcode: '',
+                    partdesc: '',
+                    p_page: 1,
+                    p_length: 10
+                },
+                success: function (result) {
+                    $('#tablegrid').html(result);
+                    $('#allclear input').val('');
+                    $('#allclear select').val('');
+                    checkAll();
+
+                },
+                error: function (result) {
+                    $("#message-popup-warning").modal();
+                    $("#popup-msg-warning").html("Data Error");
+                }
+     })
+        }
+      
+
+        function Key(e) {
+            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+                (e.keyCode == 65 && e.ctrlKey === true) ||
+                (e.keyCode >= 35 && e.keyCode <= 40)) {
+                return;
+            }
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        }
+ 
+        function checkAll() {
+            $("#checkall").click(function () {
+                if ($("#checkall").is(":checked")) {
+                    $(".grid-checkbox-body").prop('checked', true);
+                } else {
+                    $(".grid-checkbox-body").prop('checked', false);
+                }
+            });
+        }
+        function onLookupSelected(value) {
+            $("#txtUsername").val(value);
+            $("#gridlookup").modal("hide");
+        }
+
+    </script>
+
+}

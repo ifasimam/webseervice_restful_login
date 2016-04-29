@@ -1,0 +1,1 @@
+﻿delete TB_M_TERMINAL_FORMATTING where PLANT_CD =@PLANT_CD

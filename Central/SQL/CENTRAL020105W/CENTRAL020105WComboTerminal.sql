@@ -1,0 +1,1 @@
+﻿SELECT TM_CD FROM TB_M_TM

@@ -1,0 +1,836 @@
+﻿@************************************************************************************************
+ * Program History : 
+ * 
+ * Project Name     : CORPORATE INFORMATION SYSTEM
+ * Client Name      : PT. TMMIN (Toyota Manufacturing Motor Indonesia)
+ * Function Id      : CIS040104
+ * Function Name    :  03 Data Gathering & Lobbying Activities
+ * Function Group   :  03 Data Gathering & Lobbying Activities
+ * Program Id       : CIS040104
+ * Program Name     :  03 Data Gathering & Lobbying Activities
+ * Program Type     : View
+ * Description      : 
+ * Environment      : .NET 4.0, ASP MVC 4.0
+ * Author           : FID.Hartono
+ * Version          : 01.00.00
+ * Creation Date    : 17/02/2016 10:14:40
+ * 
+ * Update history     Re-fix date       Person in charge      Description 
+ *                    24/2/2016         fid.Hartono
+ * Copyright(C) 2016 - . All Rights Reserved                                                                                              
+ *************************************************************************************************@
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section HeadScript{
+    <!-- Bootstrap Datepicker css -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/datepicker.css")" />
+    <!-- Daterange picker css -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/daterangepicker.css")" />
+    <!-- Dropzone file css -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/dropzone.css")" />
+
+    <style type="text/css">
+        .modal-icon {
+            height: 35px;
+        }
+
+        .twitter-typeahead {
+            width: 100%;
+        }
+    </style>
+}
+@Html.Partial("CENTRAL020106WPopupInformation")
+<div id="tablegrid" class="hidden-xs">
+    @Html.Partial("CENTRAL020106WSearchCriteria")
+        <div class="text-center" style="margin-bottom: 3px;">
+        <hr id="hrsrc" style="margin: 0; padding: 0;" />
+        @*<button onclick="javascript:toggleSearch()" type="button" class="fa fa-chevron-up btn btn-primary btn-xs btn-tiny-down" id="toogle-search"></button>*@
+    </div>
+
+
+</div>
+
+
+@section BodyScript{
+    <!-- Bootstrap Datepicker js -->
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/bootstrap-datepicker.js")"></script>
+    <!-- Daterange picker js -->
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/moment.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/daterangepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/jquery.fileDownload.js")"></script>
+    <!-- Dropzone file js -->
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/dropzone.js")"></script>
+
+    <script src="@Url.Content("~/Content/Bootstrap/js/typeahead.jquery.js")"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //onSearchData(1);
+            ace.vars['PLANT'] = ["Plant 1", "Plant 2", "Plant 3", "Plant 4", "Plant 5"];
+
+            $('#files').ace_file_input({
+                style: 'well',
+                btn_choose: 'Drop files here or click to choose',
+                btn_change: null,
+                no_icon: 'ace-icon fa fa-cloud-upload',
+                droppable: true,
+                thumbnail: 'small'
+
+                ,
+                preview_error: function (filename, error_code) {
+
+                }
+
+            }).on('change', function () {
+                var files = $(this)[0].files;
+                for (var i = 0; i < files.length; i++) {
+                    var fileext = files[i].name.split('.').pop().toLowerCase();
+                    if (fileext == "xlsx" || fileext == "xls") {
+
+                    }
+                    else {
+                        $("#popup-msg-warning").text("Select (.xls) or (.xlsx) file only.");
+                        $("#message-popup-warning").modal();
+                        $('#files').ace_file_input('reset_input');
+                    }
+                }
+            });
+
+        });
+        $(document).ready(function () {
+            $("#btnCom2").show();
+            $("div#DivMaster").show();
+            $("div#DivMainInfo").hide();
+            $("div#DivApproval").hide();
+            $("div#DivReport").hide();
+            $("#btnlookup").click(function () {
+                $("#gridlookup").modal()
+            });
+
+            $("#btnclearlookup").click(function () {
+                $("#txtsearchlookup").val('');
+            });
+
+            $(".btn-xs").click(function () {
+                var valbtn = $(this).val();
+                $("#gridlookup").modal('hide')
+            });
+
+            $(".btn-edit").click(function () {
+                if ($(".grid-checkbox-body:checked").length == 0)
+                    $("#selected-0-confirm").modal();
+                else if ($(".check:checked").length == 1) {
+                    $("#selected-info").modal();
+                    $("#infoModal").html('Data editing ...');
+                }
+            });
+
+            $(".btn-delete").click(function () {
+                if ($(".grid-checkbox-body:checked").length == 0)
+                    $("#selected-0-confirm").modal();
+                else
+                    $("#delete-confirm").modal();
+            });
+
+            $(".btn-reject").click(function () {
+                if ($(".grid-checkbox-body:checked").length == 0)
+                    $("#selected-0-confirm").modal();
+                else
+                    $("#reject-confirm").modal();
+            });
+
+            $(".btn-approve").click(function () {
+                if ($(".grid-checkbox-body:checked").length == 0)
+                    $("#selected-0-confirm").modal();
+                else {
+                    $("#selected-info").modal();
+                    $("#infoModal").html('Data has been approved.');
+                }
+            });
+
+            $("._datepicker").datepicker();
+
+            /*Checkbox all*/
+            checkAll();
+            $("#checkall2").click(function () {
+                if ($("#checkall2").is(":checked")) {
+                    $(".grid-checkbox-body").prop('checked', true);
+                } else {
+                    $(".grid-checkbox-body").prop('checked', false);
+                }
+            });
+            $("#checkall3").click(function () {
+                if ($("#checkall3").is(":checked")) {
+                    $(".grid-checkbox-body").prop('checked', true);
+                } else {
+                    $(".grid-checkbox-body").prop('checked', false);
+                }
+            });
+            $("#checkall4").click(function () {
+                if ($("#checkall4").is(":checked")) {
+                    $(".grid-checkbox-body").prop('checked', true);
+                } else {
+                    $(".grid-checkbox-body").prop('checked', false);
+                }
+            });
+            $("#gridLookup-checkAll").click(function () {
+                if ($("#gridLookup-checkAll").is(":checked")) {
+                    $(".gridLookup-checkbox-body").prop('checked', true);
+                } else {
+                    $(".gridLookup-checkbox-body").prop('checked', false);
+                }
+            });
+            $("#gridLookup-checkAll2").click(function () {
+                if ($("#gridLookup-checkAll2").is(":checked")) {
+                    $(".gridLookup-checkbox-body").prop('checked', true);
+                } else {
+                    $(".gridLookup-checkbox-body").prop('checked', false);
+                }
+            });
+            $("#gridLookup-checkAll3").click(function () {
+                if ($("#gridLookup-checkAll3").is(":checked")) {
+                    $(".gridLookup-checkbox-body").prop('checked', true);
+                } else {
+                    $(".gridLookup-checkbox-body").prop('checked', false);
+                }
+            });
+            $("#gridLookup-checkAll4").click(function () {
+                if ($("#gridLookup-checkAll4").is(":checked")) {
+                    $(".gridLookup-checkbox-body").prop('checked', true);
+                } else {
+                    $(".gridLookup-checkbox-body").prop('checked', false);
+                }
+            });
+            $("#popupLookup-checkAll").click(function () {
+                if ($("#popupLookup-checkAll").is(":checked")) {
+                    $(".popupLookup-checkbox-body").prop('checked', true);
+                } else {
+                    $(".popupLookup-checkbox-body").prop('checked', false);
+                }
+            });
+            $("#popupLookup-checkAll2").click(function () {
+                if ($("#popupLookup-checkAll2").is(":checked")) {
+                    $(".popupLookup-checkbox-body").prop('checked', true);
+                } else {
+                    $(".popupLookup-checkbox-body").prop('checked', false);
+                }
+            });
+            $("#popupLookup-checkAll3").click(function () {
+                if ($("#popupLookup-checkAll3").is(":checked")) {
+                    $(".popupLookup-checkbox-body").prop('checked', true);
+                } else {
+                    $(".popupLookup-checkbox-body").prop('checked', false);
+                }
+            });
+            $("#popupLookup-checkAll4").click(function () {
+                if ($("#popupLookup-checkAll4").is(":checked")) {
+                    $(".popupLookup-checkbox-body").prop('checked', true);
+                } else {
+                    $(".popupLookup-checkbox-body").prop('checked', false);
+                }
+            });
+            //datepicker plugin
+            //link
+            $('.date-picker').datepicker({
+                autoclose: true,
+                todayHighlight: true
+            })
+			//show datepicker when clicking on the icon
+			.next().on(ace.click_event, function () {
+			    $(this).prev().focus();
+			});
+
+            //or change it into a date range picker
+            $('.input-daterange').datepicker({ autoclose: true });
+
+
+            //to translate the daterange picker, please copy the "examples/daterange-fr.js" contents here before initialization
+            $('input[name=date-range-picker]').daterangepicker({
+                format: 'DD/MM/YYYY',
+                'applyClass': 'btn-sm btn-success',
+                'cancelClass': 'btn-sm btn-default',
+                locale: {
+                    applyLabel: 'Apply',
+                    cancelLabel: 'Cancel',
+                }
+            })
+			.prev().on(ace.click_event, function () {
+			    $(this).next().focus();
+			});
+
+
+            //for generate title ellipsis class
+            $.each($('.ellipsis'), function (i, a) {
+                var aih = a.innerHTML;
+                aih = aih.replace(/&amp;/ig, '&');
+                a.title = aih;
+            });
+
+
+        });
+
+
+        function SaveEdit() {
+            var base_url = '@Html.Toyota().Page.BaseUrl';
+
+            var PlanCD_val = $('#PlanCD_valEdit :selected').val();
+            var termCD_val = $('#termCD_valEdit :selected').val();
+            var partCD_val = $('#partCD_valEdit :selected').val();
+
+            var PartDesc_val = $('#PartDesc_valEdit').val();
+            var ColV1_val = $('#ColV1_valEdit').val();
+            var ConsVal1_val = $('#ConsVal1_valEdit :selected').val();
+
+            var ColVI2_val = $('#ColVI2_valEdit').val();
+            var ConsVal2_val = $('#ConsVal2_valEdit  :selected').val();
+            var ColVI3_val = $('#ColVI3_valEdit').val();
+            var ConsVal3_val = $('#ConsVal3_valEdit  :selected').val();
+
+            var format_No_val = $('#format_No_valEdit').val();
+            var format_val_val = $('#format_val_valEdit').val();
+
+            var format_start_val1 = $('#format_start_val1Edit').val();
+            var format_start_val2 = $('#format_start_val2Edit').val();
+            var format_start_val3 = $('#format_start_val3Edit').val();
+            var LenCons1 = $('#LenCons1Edit').val();
+            var LenCons2 = $('#LenCons2Edit').val();
+            var LenCons3 = $('#LenCons3Edit').val();
+
+            var starter = $('#starterEdit').val();
+            var Len = $('#LenEdit').val();
+            var valid_fr_val = $('#valid_fr_valEdit').val();
+            var valid_to_val = $('#valid_to_valEdit').val();
+            var changeBy_val = $('#changeBy_valEdit').val();
+            var changeDt_val = $('#changeDt_valEdit').val();
+
+            var UpdateBy_val = $('#UpdateBy_valEdit').val();
+            var UpdateDt_val = $('#UpdateDt_valEdit').val();
+            if (PlanCD_val == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (termCD_val == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (partCD_val == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (PartDesc_val == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (ColV1_val == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (ConsVal1_val == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (ColVI2_val == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (ConsVal2_val == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (ColVI3_val == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (ConsVal3_val == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (format_No_val == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (format_val_val == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (format_start_val1 == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (format_start_val2 == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (format_start_val3 == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (LenCons1 == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (LenCons2 == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (LenCons3 == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (starter == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (Len == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (valid_fr_val == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (valid_to_val == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+
+            if (PlanCD_val != '') {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Html.Toyota().Page.GetActionUrl("SaveEditGrid")',
+                    data: {
+
+                        PlanCD_val: PlanCD_val,
+                        termCD_val: termCD_val,
+                        partCD_val: partCD_val,
+                        PartDesc_val: PartDesc_val,
+                        ColV1_val: ColV1_val,
+                        ConsVal1_val: ConsVal1_val,
+                        ColVI2_val: ColVI2_val,
+                        ConsVal2_val: ConsVal2_val,
+                        ColVI3_val: ColVI3_val,
+                        ConsVal3_val: ConsVal3_val,
+                        format_No_val: format_No_val,
+                        format_val_val: format_val_val,
+                        format_start_val1: format_start_val1,
+                        format_start_val2: format_start_val2,
+                        format_start_val3: format_start_val3,
+                        LenCons1: LenCons1,
+                        LenCons2: LenCons2,
+                        LenCons3: LenCons3,
+                        starter: starter,
+                        Len: Len,
+                        valid_fr_val: valid_fr_val,
+                        valid_to_val: valid_to_val,
+                        changeBy_val: changeBy_val,
+                        changeDt_val: changeDt_val,
+                        UpdateBy_val: UpdateBy_val,
+                        UpdateDt_val: UpdateDt_val
+
+                    },
+                    success: function (result) {
+                        $("#BtnSuccess").click(function () {
+
+                            location.href = base_url + "/CENTRAL020105W?ID=" + PlanCD_val.trim();
+                        });
+                        $("#message-popup-info").modal();
+                        $("#popup-msg-info").html("Data has been edit");
+                    },
+                    error: function (result) {
+                        $("#message-popup-warning").modal();
+                        $("#popup-msg-warning").html("Data Error");
+                    }
+                })
+            }
+
+        }
+
+
+        function SaveAdd() {
+            var base_url = '@Html.Toyota().Page.BaseUrl';
+
+            var PlanCD_val = $('#PlanCD_val :selected').val();
+            var termCD_val = $('#termCD_val :selected').val();
+            var partCD_val = $('#partCD_val :selected').val();
+
+            var PartDesc_val = $('#PartDesc_val').val();
+            var ColV1_val = $('#ColV1_val').val();
+            var ConsVal1_val = $('#ConsVal1_val :selected').val();
+
+            var ColVI2_val = $('#ColVI2_val').val();
+            var ConsVal2_val = $('#ConsVal2_val  :selected').val();
+            var ColVI3_val = $('#ColVI3_val').val();
+            var ConsVal3_val = $('#ConsVal3_val  :selected').val();
+
+            var format_No_val = $('#format_No_val').val();
+            var format_val_val = $('#format_val_val').val();
+
+            var format_start_val1 = $('#format_start_val1').val();
+            var format_start_val2 = $('#format_start_val2').val();
+            var format_start_val3 = $('#format_start_val3').val();
+            var LenCons1 = $('#LenCons1').val();
+            var LenCons2 = $('#LenCons2').val();
+            var LenCons3 = $('#LenCons3').val();
+
+            var starter = $('#starter').val();
+            var Len = $('#Len').val();
+            var valid_fr_val = $('#valid_fr_val').val();
+            var valid_to_val = $('#valid_to_val').val();
+            var changeBy_val = $('#changeBy_val').val();
+            var changeDt_val = $('#changeDt_val').val();
+
+            var UpdateBy_val = $('#UpdateBy_val').val();
+            var UpdateDt_val = $('#UpdateDt_val').val();
+            if (PlanCD_val == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (termCD_val == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (partCD_val == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (PartDesc_val == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (ColV1_val == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (ConsVal1_val == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (ColVI2_val == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (ConsVal2_val == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (ColVI3_val == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (ConsVal3_val == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (format_No_val == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            } 
+            if (format_val_val == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (format_start_val1 == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (format_start_val2 == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (format_start_val3 == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (LenCons1 == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (LenCons2 == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (LenCons3 == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (starter == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (Len == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (valid_fr_val == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+            if (valid_to_val == '') {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Field cannot be empty");
+                return false;
+
+            }
+         
+            if (PlanCD_val != '') {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Html.Toyota().Page.GetActionUrl("SaveAddGrid")',
+                data: {
+
+                    PlanCD_val: PlanCD_val,
+                    termCD_val: termCD_val,
+                    partCD_val: partCD_val,
+                    PartDesc_val: PartDesc_val,
+                    ColV1_val: ColV1_val,
+                    ConsVal1_val: ConsVal1_val,
+                    ColVI2_val: ColVI2_val,
+                    ConsVal2_val: ConsVal2_val,
+                    ColVI3_val: ColVI3_val,
+                    ConsVal3_val: ConsVal3_val,
+                    format_No_val: format_No_val,
+                    format_val_val: format_val_val,
+                    format_start_val1: format_start_val1,
+                    format_start_val2: format_start_val2,
+                    format_start_val3: format_start_val3,
+                    LenCons1: LenCons1,
+                    LenCons2: LenCons2,
+                    LenCons3: LenCons3,
+                    starter: starter,
+                    Len: Len,
+                    valid_fr_val: valid_fr_val,
+                    valid_to_val: valid_to_val,
+                    changeBy_val: changeBy_val,
+                    changeDt_val: changeDt_val,
+                    UpdateBy_val: UpdateBy_val,
+                    UpdateDt_val: UpdateDt_val
+
+                },
+                success: function (result) {
+                    $("#BtnSuccess").click(function () {
+                      
+                        location.href = base_url + "/CENTRAL020105W?ID=" + PlanCD_val.trim();
+                    });
+                    $("#message-popup-info").modal();
+                    $("#popup-msg-info").html("Data has been saved");
+                },
+                error: function (result) {
+                    $("#message-popup-warning").modal();
+                    $("#popup-msg-warning").html("Data Error");
+                }
+            })
+        }
+
+    }
+    function CencelSave() {
+        var PlanCD_val = $('#PlanCD_val :selected').val();
+        var base_url = '@Html.Toyota().Page.BaseUrl';
+            location.href = base_url + "/CENTRAL020105W?ID=";
+        }
+        function GetPartDesc() {
+            var PlanCD_val = $('#PlanCD_val :selected').val();
+
+            $.ajax({
+                type: 'POST',
+                url: '@Html.Toyota().Page.GetActionUrl("GetPartDesc")',
+                data: {
+                    PlanCD_val: PlanCD_val
+                },
+                success: function (result) {
+                    $("#PartDesc_val").val(result);
+                }
+            });
+        }
+        function GetComboTerm() {
+            var PlanCD_val = $('#PlanCD_val :selected').val();
+            $.ajax({
+                type: 'POST',
+                url: '@Html.Toyota().Page.GetActionUrl("GetComboTerm")',
+                    data: {
+                        PlanCD_val: PlanCD_val,
+
+                    },
+                    success: function (result) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '@Html.Toyota().Page.GetActionUrl("GetComboPartCode")',
+                        data: {
+                            PlanCD_val: PlanCD_val,
+
+                        },
+                        success: function (result2) {
+                            var termCD_val = $('#termCD_val');
+                            var partCD_val = $('#partCD_val');
+                        
+                            $.each(result, function (k, v) {
+                                var option_query = "option:gt(0)";
+                                termCD_val.find(option_query).each(function () {
+                                    $(this).remove();
+                                });
+                                termCD_val.append($("<option></option>")
+                                .attr("value", v.value)
+                                .text(v.text));
+                            });
+                            
+                            $.each(result2, function (k, v) {
+                                var option_query = "option:gt(0)";
+                                partCD_val.find(option_query).each(function () {
+                                    $(this).remove();
+                                });
+                                partCD_val.append($("<option></option>")
+                                .attr("value", v.value)
+                                .text(v.text));
+                            });
+                            GetPartDesc();
+                        },
+                        error: function (result2) {
+                            $("#message-popup-warning").modal();
+                            $("#popup-msg-warning").html("Data Error");
+                        }
+                    });
+                },
+                    error: function (result) {
+                        $("#message-popup-warning").modal();
+                        $("#popup-msg-warning").html("Data Error");
+                    }
+                });
+        }
+
+
+
+        function Key(e) {
+            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+                (e.keyCode == 65 && e.ctrlKey === true) ||
+                (e.keyCode >= 35 && e.keyCode <= 40)) {
+                return;
+            }
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        }
+        function isChecked(e) {
+            var curDt = new Date();
+            if ($(e).prop('checked')) {
+                $(e).closest($('tr')).addClass('selected');
+                $('tr input[type="checkbox"]').prop('disabled', true);
+                $(e).prop('disabled', false);
+                $('#editBtn').prop('disabled', false);
+
+                var meetDt = Date.parse($('.selected .display #meetDt').text().trim());
+                if (meetDt < curDt) {
+                    $('#editBtn').prop('disabled', false);
+                }
+            }
+            else {
+                $(e).closest($('tr')).removeClass('selected');
+                $('tr input[type="checkbox"]').prop('disabled', false);
+                $('#editBtn').prop('disabled', true);
+            }
+        }
+
+
+        function checkAll() {
+            $("#checkall").click(function () {
+                if ($("#checkall").is(":checked")) {
+                    $(".grid-checkbox-body").prop('checked', true);
+                } else {
+                    $(".grid-checkbox-body").prop('checked', false);
+                }
+            });
+        }
+        function onLookupSelected(value) {
+            $("#txtUsername").val(value);
+            $("#gridlookup").modal("hide");
+        }
+
+    </script>
+
+}

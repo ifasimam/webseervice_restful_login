@@ -1,0 +1,228 @@
+﻿@using Central.Models.CENTRAL020105W;
+
+@{
+    List<CENTRAL020105W> ComboPlant = (List<CENTRAL020105W>)ViewData["ComboPlant"];
+    List<CENTRAL020105W> ComboTerminal = (List<CENTRAL020105W>)ViewData["ComboTerminal"];
+    List<CENTRAL020105W> ComboPartCode = (List<CENTRAL020105W>)ViewData["ComboPartCode"];
+    List<CENTRAL020105W> ConstrainNm1 = (List<CENTRAL020105W>)ViewData["ConstrainNm1"];
+ 
+}
+<div id="commentPopup" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog" style="width:1300px">
+        <div class="modal-content center" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="popup-title">Detail</h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-4">
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label required-left text-muted">Plant</label>
+
+                            <div class="col-xs-8 col-sm-9 col-md-8">
+                                <select id="PlanCD_val" class="form-control" style="width: 130px">
+                                    <option value="">ALL</option>
+                                    @foreach (CENTRAL020105W item in ComboPlant)
+                                    {
+                             
+                                        <option value="@item.PLANT_CD">@item.PLANT_CD</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-5 col-sm-4 col-md-4 control-label required-left text-muted">Terminal</label>
+
+                            <div class="col-xs-8 col-sm-9 col-md-8">
+                                <select id="termCD_val" class="form-control" style="width: 130px">
+                                    <option value="">ALL</option>
+                                    @foreach (CENTRAL020105W item in ComboTerminal)
+                                    {
+                                        <option value="@item.TERM_CD">@item.TERM_CD</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                           <br />
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Part Code</label>
+                            <div class="col-xs-8 col-sm-9 col-md-6">
+                                <select id="partCD_val" class="form-control" style="width: 130px">
+                                    <option value="">ALL</option>
+                                    @foreach (CENTRAL020105W item in ComboTerminal)
+                                    {
+                                        <option value="@item.PART_CD">@item.PART_CD</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                           <br />
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Part Name</label>
+                            <div class="col-xs-8 col-sm-9 col-md-6">
+                                <input type="text" id="PartDesc_val" style="width: 130px" />
+                            </div>
+                        </div>
+                           <br />
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Constrain Name 1</label>
+                            <div class="col-xs-8 col-sm-9 col-md-6">
+                                <select id="ConsVal1_val" class="form-control" style="width: 130px">
+                                    <option value="">ALL</option>
+                                    @foreach (CENTRAL020105W item in ConstrainNm1)
+                                    {
+                                        <option value="@item.CONS_DESC">@item.CONS_DESC</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                           <br />
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Value 1</label>
+                            <div class="col-xs-8 col-sm-9 col-md-6">
+                                <input type="text" id="ColV1_val" style="width: 130px" />
+                            </div>
+                        </div>
+                           <br />
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Constrain Name 2</label>
+                            <div class="col-xs-8 col-sm-9 col-md-6">
+                                <select id="ConsVal2_val" class="form-control" style="width: 130px">
+                                    <option value="">ALL</option>
+                                    @foreach (CENTRAL020105W item in ConstrainNm1)
+                                    {
+                                        <option value="@item.CONS_DESC">@item.CONS_DESC</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                           <br />
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Value 2</label>
+                            <div class="col-xs-8 col-sm-9 col-md-6">
+                                <input type="text" id="ColVI2_val" style="width: 130px" />
+                            </div>
+                        </div>
+                           <br />
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Constrain Name 3</label>
+                            <div class="col-xs-8 col-sm-9 col-md-6">
+                                <select id="ConsVal3_val" class="form-control" style="width: 130px">
+                                    <option value="">ALL</option>
+                                    @foreach (CENTRAL020105W item in ConstrainNm1)
+                                    {
+                                        <option value="@item.CONS_DESC">@item.CONS_DESC</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                           <br />
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Value 3</label>
+                            <div class="col-xs-8 col-sm-9 col-md-6">
+                                <input type="text" id="ColVI3_val" style="width: 130px" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4">
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Format No.</label>
+                            <div class="col-xs-8 col-sm-9 col-md-6">
+                                <input type="text" id="format_No_val" style="width: 130px" />
+                            </div>
+                        </div>
+                           <br />
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Format Value</label>
+                            <div class="col-xs-8 col-sm-9 col-md-6">
+                                <input type="text" id="format_val_val" style="width: 130px" />
+                            </div>
+                        </div>
+                           <br />
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Valid From</label>
+                            <div class="col-xs-8 col-sm-9 col-md-6">
+                                <input type="text" class="date-picker" id="valid_fr_val" style="width: 130px" />
+                            </div>
+                        </div>
+                           <br />
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Valid To</label>
+                            <div class="col-xs-8 col-sm-9 col-md-6">
+                                <input type="text" class="date-picker" id="valid_to_val" style="width: 130px" />
+                            </div>
+                        </div>
+                           <br />
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Start Cons1:</label>
+                            <div class="col-xs-8 col-sm-9 col-md-6">
+                                <input type="text" id="format_start_val1" style="width: 40px" />
+                            </div>
+                        </div>
+                           <br />
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Len Cons1:</label>
+                            <div class="col-xs-8 col-sm-9 col-md-6">
+                                <input type="text" id="LenCons1" style="width: 40px" />
+                            </div>
+                        </div>
+                           <br />
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Start Cons2:</label>
+                            <div class="col-xs-8 col-sm-9 col-md-6">
+                                <input type="text" id="format_start_val2" style="width: 40px" />
+                            </div>
+                        </div>
+                           <br />
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Len Cons2:</label>
+                            <div class="col-xs-8 col-sm-9 col-md-6">
+                                <input type="text" id="LenCons2" style="width: 40px" />
+                            </div>
+                        </div>
+                           <br />
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Start Cons3:</label>
+                            <div class="col-xs-8 col-sm-9 col-md-6">
+                                <input type="text" id="format_start_val3" style="width: 40px" />
+                            </div>
+                        </div>
+                           <br />
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Len Cons3:</label>
+                            <div class="col-xs-8 col-sm-9 col-md-6">
+                                <input type="text" id="LenCons3" style="width: 40px" />
+                            </div>
+                        </div>
+                           <br />
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4">
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Start:</label>
+                            <div class="col-xs-8 col-sm-9 col-md-6">
+                                <input type="text" id="starter" style="width: 40px" />
+                            </div>
+                        </div>
+                           <br />
+                        <div class="form-group form-group-xs">
+                            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Len:</label>
+                            <div class="col-xs-8 col-sm-9 col-md-6">
+                                <input type="text" id="Len" style="width: 40px" />
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-xs" onclick="javascript: SaveEdit()" id="commentSaveBtn">Save</button>
+                <button type="button" class="btn btn-default btn-xs" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

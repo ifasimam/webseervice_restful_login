@@ -1,0 +1,717 @@
+﻿@************************************************************************************************
+ * Program History : 
+ * 
+ * Project Name     : CORPORATE INFORMATION SYSTEM
+ * Client Name      : PT. TMMIN (Toyota Manufacturing Motor Indonesia)
+ * Function Id      : CIS040104
+ * Function Name    :  03 Data Gathering & Lobbying Activities
+ * Function Group   :  03 Data Gathering & Lobbying Activities
+ * Program Id       : CIS040104
+ * Program Name     :  03 Data Gathering & Lobbying Activities
+ * Program Type     : View
+ * Description      : 
+ * Environment      : .NET 4.0, ASP MVC 4.0
+ * Author           : FID.Hartono
+ * Version          : 01.00.00
+ * Creation Date    : 17/02/2016 10:14:40
+ * 
+ * Update history     Re-fix date       Person in charge      Description 
+ *                    24/2/2016         fid.Hartono
+ * Copyright(C) 2016 - . All Rights Reserved                                                                                              
+ *************************************************************************************************@
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section HeadScript{
+    <!-- Bootstrap Datepicker css -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/datepicker.css")" />
+    <!-- Daterange picker css -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/daterangepicker.css")" />
+    <!-- Dropzone file css -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/Bootstrap/css/dropzone.css")" />
+
+    <style type="text/css">
+        .modal-icon {
+            height: 35px;
+        }
+
+        .twitter-typeahead {
+            width: 100%;
+        }
+    </style>
+}
+
+<div class="hidden-xs">
+    @Html.Partial("CENTRAL010301WSearchCriteria")
+
+    <div class="text-center" style="margin-bottom: 3px;">
+        <hr id="hrsrc" style="margin: 0; padding: 0;" />
+        @*<button onclick="javascript:toggleSearch()" type="button" class="fa fa-chevron-up btn btn-primary btn-xs btn-tiny-down" id="toogle-search"></button>*@
+    </div>
+    @Html.Partial("CENTRAL010301WPopupInformation")
+    <div id="tablegrid">
+        @Html.Partial("CENTRAL010301WSimpleGrid")
+    </div>
+
+</div>
+
+
+@section BodyScript{
+    <!-- Bootstrap Datepicker js -->
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/bootstrap-datepicker.js")"></script>
+    <!-- Daterange picker js -->
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/moment.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/date-time/daterangepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/jquery.fileDownload.js")"></script>
+    <!-- Dropzone file js -->
+    <script type="text/javascript" src="@Url.Content("~/Content/Bootstrap/js/dropzone.js")"></script>
+
+    <script src="@Url.Content("~/Content/Bootstrap/js/typeahead.jquery.js")"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //onSearchData(1);
+            ace.vars['PLANT'] = ["Plant 1", "Plant 2", "Plant 3", "Plant 4", "Plant 5"];
+
+            $('#files').ace_file_input({
+                style: 'well',
+                btn_choose: 'Drop files here or click to choose',
+                btn_change: null,
+                no_icon: 'ace-icon fa fa-cloud-upload',
+                droppable: true,
+                thumbnail: 'small'
+
+                ,
+                preview_error: function (filename, error_code) {
+
+                }
+
+            }).on('change', function () {
+                var files = $(this)[0].files;
+                for (var i = 0; i < files.length; i++) {
+                    var fileext = files[i].name.split('.').pop().toLowerCase();
+                    if (fileext == "xlsx" || fileext == "xls") {
+
+                    }
+                    else {
+                        $("#popup-msg-warning").text("Select (.xls) or (.xlsx) file only.");
+                        $("#message-popup-warning").modal();
+                        $('#files').ace_file_input('reset_input');
+                    }
+                }
+            });
+
+        });
+        $(document).ready(function () {
+            $("#btnCom2").show();
+            $("div#DivMaster").show();
+            $("div#DivMainInfo").hide();
+            $("div#DivApproval").hide();
+            $("div#DivReport").hide();
+            $("#btnlookup").click(function () {
+                $("#gridlookup").modal()
+            });
+
+            $("#btnclearlookup").click(function () {
+                $("#txtsearchlookup").val('');
+            });
+
+            $(".btn-xs").click(function () {
+                var valbtn = $(this).val();
+                $("#gridlookup").modal('hide')
+            });
+
+            $(".btn-edit").click(function () {
+                if ($(".grid-checkbox-body:checked").length == 0)
+                    $("#selected-0-confirm").modal();
+                else if ($(".check:checked").length == 1) {
+                    $("#selected-info").modal();
+                    $("#infoModal").html('Data editing ...');
+                }
+            });
+
+            $(".btn-delete").click(function () {
+                if ($(".grid-checkbox-body:checked").length == 0)
+                    $("#selected-0-confirm").modal();
+                else
+                    $("#delete-confirm").modal();
+            });
+
+            $(".btn-reject").click(function () {
+                if ($(".grid-checkbox-body:checked").length == 0)
+                    $("#selected-0-confirm").modal();
+                else
+                    $("#reject-confirm").modal();
+            });
+
+            $(".btn-approve").click(function () {
+                if ($(".grid-checkbox-body:checked").length == 0)
+                    $("#selected-0-confirm").modal();
+                else {
+                    $("#selected-info").modal();
+                    $("#infoModal").html('Data has been approved.');
+                }
+            });
+
+            $("._datepicker").datepicker();
+
+            /*Checkbox all*/
+            checkAll();
+            $("#checkall2").click(function () {
+                if ($("#checkall2").is(":checked")) {
+                    $(".grid-checkbox-body").prop('checked', true);
+                } else {
+                    $(".grid-checkbox-body").prop('checked', false);
+                }
+            });
+            $("#checkall3").click(function () {
+                if ($("#checkall3").is(":checked")) {
+                    $(".grid-checkbox-body").prop('checked', true);
+                } else {
+                    $(".grid-checkbox-body").prop('checked', false);
+                }
+            });
+            $("#checkall4").click(function () {
+                if ($("#checkall4").is(":checked")) {
+                    $(".grid-checkbox-body").prop('checked', true);
+                } else {
+                    $(".grid-checkbox-body").prop('checked', false);
+                }
+            });
+            $("#gridLookup-checkAll").click(function () {
+                if ($("#gridLookup-checkAll").is(":checked")) {
+                    $(".gridLookup-checkbox-body").prop('checked', true);
+                } else {
+                    $(".gridLookup-checkbox-body").prop('checked', false);
+                }
+            });
+            $("#gridLookup-checkAll2").click(function () {
+                if ($("#gridLookup-checkAll2").is(":checked")) {
+                    $(".gridLookup-checkbox-body").prop('checked', true);
+                } else {
+                    $(".gridLookup-checkbox-body").prop('checked', false);
+                }
+            });
+            $("#gridLookup-checkAll3").click(function () {
+                if ($("#gridLookup-checkAll3").is(":checked")) {
+                    $(".gridLookup-checkbox-body").prop('checked', true);
+                } else {
+                    $(".gridLookup-checkbox-body").prop('checked', false);
+                }
+            });
+            $("#gridLookup-checkAll4").click(function () {
+                if ($("#gridLookup-checkAll4").is(":checked")) {
+                    $(".gridLookup-checkbox-body").prop('checked', true);
+                } else {
+                    $(".gridLookup-checkbox-body").prop('checked', false);
+                }
+            });
+            $("#popupLookup-checkAll").click(function () {
+                if ($("#popupLookup-checkAll").is(":checked")) {
+                    $(".popupLookup-checkbox-body").prop('checked', true);
+                } else {
+                    $(".popupLookup-checkbox-body").prop('checked', false);
+                }
+            });
+            $("#popupLookup-checkAll2").click(function () {
+                if ($("#popupLookup-checkAll2").is(":checked")) {
+                    $(".popupLookup-checkbox-body").prop('checked', true);
+                } else {
+                    $(".popupLookup-checkbox-body").prop('checked', false);
+                }
+            });
+            $("#popupLookup-checkAll3").click(function () {
+                if ($("#popupLookup-checkAll3").is(":checked")) {
+                    $(".popupLookup-checkbox-body").prop('checked', true);
+                } else {
+                    $(".popupLookup-checkbox-body").prop('checked', false);
+                }
+            });
+            $("#popupLookup-checkAll4").click(function () {
+                if ($("#popupLookup-checkAll4").is(":checked")) {
+                    $(".popupLookup-checkbox-body").prop('checked', true);
+                } else {
+                    $(".popupLookup-checkbox-body").prop('checked', false);
+                }
+            });
+            //datepicker plugin
+            //link
+            $('.date-picker').datepicker({
+                autoclose: true,
+                todayHighlight: true
+            })
+			//show datepicker when clicking on the icon
+			.next().on(ace.click_event, function () {
+			    $(this).prev().focus();
+			});
+
+            //or change it into a date range picker
+            $('.input-daterange').datepicker({ autoclose: true });
+
+
+            //to translate the daterange picker, please copy the "examples/daterange-fr.js" contents here before initialization
+            $('input[name=date-range-picker]').daterangepicker({
+                format: 'DD/MM/YYYY',
+                'applyClass': 'btn-sm btn-success',
+                'cancelClass': 'btn-sm btn-default',
+                locale: {
+                    applyLabel: 'Apply',
+                    cancelLabel: 'Cancel',
+                }
+            })
+			.prev().on(ace.click_event, function () {
+			    $(this).next().focus();
+			});
+
+
+            //for generate title ellipsis class
+            $.each($('.ellipsis'), function (i, a) {
+                var aih = a.innerHTML;
+                aih = aih.replace(/&amp;/ig, '&');
+                a.title = aih;
+            });
+
+
+        });
+
+
+
+
+
+
+        //End of Added By FID) Asep
+
+        function popuplookupSelected(setValue) {
+            var result = '';
+            if (($(".popupLookup-checkbox-body:checked").length > 0) && (setValue == 'OK')) {
+                for (i = 0; i < $(".popupLookup-checkbox-body").length; i++) {
+                    if ($(".popupLookup-checkbox-body")[i].checked)
+                        result = result + ((result != '') ? ';' : '') + $(".popupLookup-checkbox-body")[i].dataset.value;
+                }
+                $("#txtUsername").val(result);
+            }
+
+            if (setValue == 'CS') {
+                $(".popupLookup-checkbox-body").prop('checked', false);
+                $("#txtUsername").val('');
+            }
+        }
+
+        function gridlookupSelected(setValue) {
+            var result = '';
+            if (($(".gridLookup-checkbox-body:checked").length > 0) && (setValue == 'OK')) {
+                for (i = 0; i < $(".gridLookup-checkbox-body").length; i++) {
+                    if ($(".gridLookup-checkbox-body")[i].checked)
+                        result = result + ((result != '') ? ';' : '') + $(".gridLookup-checkbox-body")[i].dataset.value;
+                }
+                //                $("#btn-value").html(result);
+                $("#txtVendor").val(result);
+            }
+
+            if (setValue == 'CS') {
+                $(".gridLookup-checkbox-body").prop('checked', false);
+                $("#txtVendor").val('Select item');
+            }
+
+            closePopup();
+        }
+
+        function openPopup() {
+            $("#txtsearchlookup").val('');
+            if ($("#btn-group").hasClass('open'))
+                $("#btn-group").removeClass('open')
+            else
+                $("#btn-group").addClass('open')
+        }
+
+        function closePopup() {
+            $("#txtsearchlookup").val('');
+            $("#btn-group").removeClass('open')
+        }
+
+        function clearPopupFilter() {
+            $("#txtsearchlookup").val('');
+        }
+
+        function clearPopupFilter2() {
+            $("#txtPopupSearchLookup").val('');
+        }
+
+        function CancelEditIssue() {
+            $('.selected .display').removeClass('hide');
+            $('.selected .edit').addClass('hide');
+            disableEdit(false);
+            ResetEditIssue();
+            // $('.selected input[type="checkbox"]').prop('disabled', false);
+        }
+
+
+        function isChecked(e) {
+            var curDt = new Date();
+            if ($(e).prop('checked')) {
+                $(e).closest($('tr')).addClass('selected');
+                $('tr input[type="checkbox"]').prop('disabled', true);
+                $(e).prop('disabled', false);
+                $('#editBtn').prop('disabled', false);
+
+                var meetDt = Date.parse($('.selected .display #meetDt').text().trim());
+                if (meetDt < curDt) {
+                    $('#editBtn').prop('disabled', false);
+                }
+            }
+            else {
+                $(e).closest($('tr')).removeClass('selected');
+                $('tr input[type="checkbox"]').prop('disabled', false);
+                $('#editBtn').prop('disabled', true);
+            }
+        }
+
+
+        function searchData(Page) {
+            var BDNO = $("#BDNO").val();
+            var FR_CD = $("#ASD_VINNO").val();
+            var MSG_NO = $("#MSG_NO").val();
+            $.ajax({
+                type: 'POST',
+                url: '@Html.Toyota().Page.GetActionUrl("CheckBody")',
+                data: {
+                    BDNO: BDNO,
+                    FR_CD: FR_CD,
+                    MSG_NO: MSG_NO
+
+                },
+                success: function (result) {
+                    if (result > 0) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '@Html.Toyota().Page.GetActionUrl("CheckBodyNo")',
+                            data: {
+                                BDNO: BDNO,
+                                FR_CD: FR_CD,
+                                MSG_NO: MSG_NO
+
+                            },
+                            success: function (result2) {
+                                if (result2 == 'C') {
+                                    $("#message-popup-warning").modal();
+                                    $("#popup-msg-warning").html("Body No. already CONFIRMED ");
+                                }
+                                if (result2 == 'R') {
+                                    $("#message-popup-warning").modal();
+                                    $("#popup-msg-warning").html("Data not found");
+                                }
+                                if (result2 == 'RC') {
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: '@Html.Toyota().Page.GetActionUrl("CheckinSFNCentral")',
+                                        data: {
+                                            BDNO: BDNO,
+                                            FR_CD: FR_CD,
+                                            MSG_NO: MSG_NO
+
+                                        },
+                                        success: function (result3) {
+                                            $.ajax({
+                                                type: 'POST',
+                                                url: '@Html.Toyota().Page.GetActionUrl("GetTblFormatting")',
+                                                data: {
+                                                    BDNO: BDNO,
+                                                    FR_CD: FR_CD,
+                                                    MSG_NO: MSG_NO
+
+                                                },
+                                                success: function (index) {
+                                                    var COL_VI1 = index[0].COL_VI1;
+                                                    var COL_VI2 = index[0].COL_VI2;
+                                                    var COL_VI3 = index[0].COL_VI3;
+
+                                                    var CONS_VAL1 = index[0].CONS_VAL1;
+                                                    var CONS_VAL2 = index[0].CONS_VAL2;
+                                                    var CONS_VAL3 = index[0].CONS_VAL3;
+                                                    $.ajax({
+                                                        type: 'POST',
+                                                        url: '@Html.Toyota().Page.GetActionUrl("GetBDNoSFBase")',
+                                                        data: {
+                                                            COL_VI1: COL_VI1,
+                                                            COL_VI2: COL_VI2,
+                                                            COL_VI3: COL_VI3,
+                                                            CONS_VAL1: CONS_VAL1,
+                                                            CONS_VAL2: CONS_VAL2,
+                                                            CONS_VAL3: CONS_VAL3,
+
+                                                            BDNO: BDNO,
+                                                            FR_CD: FR_CD
+                                                        },
+                                                        success: function (result4) {
+                                                            if (result4 <= 0) {
+                                                                $("#message-popup-warning").modal();
+                                                                $("#popup-msg-warning").html("No Part ID to scan. Please contact administrator.");
+                                                            }
+                                                            else {
+                                                                $.ajax({
+                                                                    type: 'POST',
+                                                                    url: '@Html.Toyota().Page.GetActionUrl("GetPartIDSFNPart")',
+                                                                    data: {
+                                                                        BDNO: BDNO
+                                                                    },
+                                                                    success: function (flag) {
+                                                                        if (flag == "1") {
+                                                                            $("#message-popup-warning").modal();
+                                                                            $("#popup-msg-warning").html("Part ID already exist ");
+                                                                        }
+                                                                        if (flag == "2") {
+
+                                                                            $.ajax({
+                                                                                type: 'POST',
+                                                                                url: '@Html.Toyota().Page.GetActionUrl("GetPartID")',
+                                                                                data: {
+                                                                                    BDNO: BDNO,
+                                                                                    MSG_NO: MSG_NO
+                                                                                },
+                                                                                success: function (result5) {
+                                                                                    if (result5 != '') {
+                                                                                        $.ajax({
+                                                                                            type: 'POST',
+                                                                                            url: '@Html.Toyota().Page.GetActionUrl("GetLoopSfnLog")',
+                                                                                            data: {
+                                                                                                result5: result5,
+                                                                                                BDNO: BDNO,
+                                                                                                MSG_NO: MSG_NO
+                                                                                            },
+                                                                                            success: function (result8) {
+                                                                                                if (result8 == 'valid' || result8 != '') {
+                                                                                                    $("#message-popup-warning").modal();
+                                                                                                    $("#popup-msg-warning").html("Part ID is blocked");
+                                                                                                }
+                                                                                                else {
+                                                                                                    var page = Page != undefined ? (Page != '' || Page != null ? Page : 1) : 1;
+                                                                                                    var length = $(".page-size").val() != undefined ? ($(".page-size").val() != '' || $(".page-size").val() != null ? $(".page-size").val() : 10) : 10;
+                                                                                                    var BDNO = $("#BDNO").val();
+                                                                                                    var ASD_VINNO = $("#ASD_VINNO").val();
+                                                                                                    var MSG_NO = $("#MSG_NO").val();
+
+                                                                                                    $.ajax({
+                                                                                                        type: 'POST',
+                                                                                                        url: '@Html.Toyota().Page.GetActionUrl("GetPartIDList")',
+                                                                                                                    data: {
+                                                                                                                        BDNO: BDNO,
+                                                                                                                        p_page: page,
+                                                                                                                        p_length: length
+                                                                                                                    },
+                                                                                                                    success: function (result) {
+                                                                                                                        $('#tablegrid').html(result);
+                                                                                                                        checkAll();
+
+                                                                                                                    },
+                                                                                                                    error: function (result) {
+                                                                                                                        $("#message-popup-warning").modal();
+                                                                                                                        $("#popup-msg-warning").html("Data Error");
+                                                                                                                    }
+                                                                                                                })
+                                                                                                            }
+
+                                                                                                        },
+                                                                                            error: function (result8) {
+                                                                                                $("#message-popup-warning").modal();
+                                                                                                $("#popup-msg-warning").html("Data Error");
+                                                                                            }
+                                                                                        })
+                                                                                                }
+                                                                                    if (result5 == '') {
+                                                                                        $("#message-popup-warning").modal();
+                                                                                        $("#popup-msg-warning").html("Format not valid, Part ID not successfully stored. Click Clear button to scan next Body No.");
+                                                                                    }
+
+                                                                                },
+                                                                                error: function (result5) {
+                                                                                    $("#message-popup-warning").modal();
+                                                                                    $("#popup-msg-warning").html("Data Error");
+                                                                                }
+                                                                            })
+                                                                                    }
+
+                                                                    },
+                                                                    error: function (flag) {
+                                                                        $("#message-popup-warning").modal();
+                                                                        $("#popup-msg-warning").html("Data Error");
+                                                                    }
+                                                                })
+
+
+                                                                        }
+
+                                                        },
+                                                        error: function (result4) {
+                                                            $("#message-popup-warning").modal();
+                                                            $("#popup-msg-warning").html("Data Error");
+                                                        }
+                                                    })
+
+                                                },
+                                                error: function (result3) {
+                                                    $("#message-popup-warning").modal();
+                                                    $("#popup-msg-warning").html("Data Error");
+                                                }
+                                            })
+
+                                        },
+                                        error: function (result3) {
+                                            $("#message-popup-warning").modal();
+                                            $("#popup-msg-warning").html("Data Error");
+                                        }
+                                    })
+                                            }
+                            },
+                            error: function (result2) {
+                                $("#message-popup-warning").modal();
+                                $("#popup-msg-warning").html("Data Error");
+                            }
+                        })
+                                }
+                    if (result <= 0) {
+                        $("#message-popup-warning").modal();
+                        $("#popup-msg-warning").html("Data not found");
+                    }
+                },
+                error: function (result) {
+                    $("#message-popup-warning").modal();
+                    $("#popup-msg-warning").html("Data Error");
+                }
+            })
+
+                    }
+
+                    function ClearSearch() {
+                        $.ajax({
+                            type: 'POST',
+                            url: '@Html.Toyota().Page.GetActionUrl("GetPartIDList")',
+                            data: {
+                                BDNO: '',
+
+                                p_page: 0,
+                                p_length: 0
+                            },
+                            success: function (result) {
+                                $('#tablegrid').html(result);
+                                $("#BDNO").val('');
+                                $("#ASD_VINNO").val('');
+                                $("#MSG_NO").val('');
+                                checkAll();
+
+                            },
+                            error: function (result) {
+                                $("#message-popup-warning").modal();
+                                $("#popup-msg-warning").html("Data Error");
+                            }
+                        })
+
+                    }
+                    function rejectCommand() {
+                        var IDJ = $('.selected #JudgeID').text().trim();
+                        var BdIDS = $('.selected #BdIDS').text().trim();
+                        if (IDJ == 'NG') {
+                            $("#message-popup-warning").modal();
+                            $("#popup-msg-warning").html("Data is Not Good");
+                            return false;
+                        }
+                        if (IDJ == 'OK') {
+                            $.ajax({
+                                type: 'POST',
+                                url: '@Html.Toyota().Page.GetActionUrl("GetConfirmData")',
+                    data: {
+                        BdIDS: BdIDS,
+
+                    },
+                    success: function (result) {
+                        $('#tablegrid').html(result);
+                        checkAll();
+
+                    },
+                    error: function (result) {
+                        $("#message-popup-warning").modal();
+                        $("#popup-msg-warning").html("Data Error");
+                    }
+                })
+            }
+
+        }
+        function Confirm() {
+
+            var IDJ = $('.selected #JudgeID').text().trim();
+            var BdIDS = $('.selected #BdIDS').text().trim();
+            if (IDJ != '') {
+               
+                if (IDJ == 'NG') {
+                    $("#message-popup-warning").modal();
+                    $("#popup-msg-warning").html("Data is Not Good");
+                    return false;
+                }
+                if (IDJ == 'OK') {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Html.Toyota().Page.GetActionUrl("GetConfirmData")',
+                        data: {
+                            BdIDS: BdIDS,
+
+                        },
+                        success: function (result) {
+                            $('#tablegrid').html(result);
+                            checkAll();
+
+                        },
+                        error: function (result) {
+                            $("#message-popup-warning").modal();
+                            $("#popup-msg-warning").html("Data Error");
+                        }
+                    })
+                }
+            }
+            else {
+                $("#message-popup-warning").modal();
+                $("#popup-msg-warning").html("Please Select Data");
+            }
+        }
+        function clearData() {
+            $("#cmb_status").css("background-color", "#FFFFFF");
+            $("#cmb_status").val('');
+            $("#txtUsername").val('');
+            $("#navtxtdesc").val('');
+            $("#id-date-picker-1").val('');
+            $("#amount").val('');
+            $("#btn-value").html('Select item');
+            $("#id-date-range-picker-1").val('');
+            $("#sw1").prop('checked', false);
+            $("#cmb_status").val('');
+            ClearSearch();
+        }
+
+
+        function Key(e) {
+            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+                (e.keyCode == 65 && e.ctrlKey === true) ||
+                (e.keyCode >= 35 && e.keyCode <= 40)) {
+                return;
+            }
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        }
+
+        function checkAll() {
+            $("#checkall").click(function () {
+                if ($("#checkall").is(":checked")) {
+                    $(".grid-checkbox-body").prop('checked', true);
+                } else {
+                    $(".grid-checkbox-body").prop('checked', false);
+                }
+            });
+        }
+        function onLookupSelected(value) {
+            $("#txtUsername").val(value);
+            $("#gridlookup").modal("hide");
+        }
+
+    </script>
+
+}

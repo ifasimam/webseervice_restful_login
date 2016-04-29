@@ -1,0 +1,56 @@
+﻿@using Central.Models.CENTRAL010301W
+@{
+    List<SIMPLEGRID> SimpleGrid = (List<SIMPLEGRID>)ViewData["SimpleGrid"];
+}
+<form role="form" class="form-horizontal _criteria" id="searchForm">
+    <div class="row">
+        <div class="text-left" style="width: 420px">
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-4"><font size="5px">&nbsp;&nbsp;Body No</font></label>
+
+                <div class="col-xs-8 col-sm-9 col-md-8">
+                    <input type="text" id="BDNO" style="width: 130px" />
+                </div>
+            </div>
+            <div class="form-group form-group-xs">
+                <label class="col-xs-5 col-sm-4 col-md-4"><font size="5px">&nbsp;&nbsp;Frame No</font></label>
+
+                <div class="col-xs-8 col-sm-9 col-md-8">
+                    <input type="text" id="ASD_VINNO" style="width: 200px" />
+                </div>
+            </div>
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-4"><font size="5px">&nbsp;&nbsp;E/G No</font></label>
+                <div class="col-xs-8 col-sm-9 col-md-8">
+                    <div class="input-group">
+
+                        <input id="MSG_NO" style="width: 200px" type="text" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="text-left" style="width: 420px">
+            @if (SimpleGrid != null)
+            {
+                foreach (SIMPLEGRID Item in SimpleGrid)
+                {
+                    if (Item.SYSTEM_VALUE_TXT == "NG")
+                    {
+                <img src="@Url.Content("~/Content/Images/Login/NG.PNG")" alt="NG" /> 
+                    }
+                    if (Item.SYSTEM_VALUE_TXT == "OK")
+                    {
+                <img src="@Url.Content("~/Content/Images/Login/OK.PNG")" alt="OK" /> 
+                    }
+                }
+            }
+
+        </div>
+
+        <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+        <button type="button" class="btn btn-primary btn-xs text-right" style="width: 90px" id="btnSearch" onclick="searchData(1)">Search</button>
+        <button type="reset" class="btn btn-default btn-xs text-right" style="width: 90px" id="btnClearSearch" onclick="ClearSearch()">Clear</button>
+    </div>
+    <br />
+</form>

@@ -1,0 +1,420 @@
+﻿@using Central.Models.CENTRAL030102W
+@{
+ 
+    List<SIMPLEGRID> SimpleGrid2 = new List<SIMPLEGRID>();
+
+
+    if (ViewData["SimpleGrid2"] != null)
+    {
+        SimpleGrid2 = (List<SIMPLEGRID>)ViewData["SimpleGrid2"];
+    }
+ 
+
+}
+
+<style type="text/css">
+    .close {
+        opacity: 1;
+    }
+</style>
+
+<div class="row" id="DivMaster2">
+    <div class="text-left">
+        <div class="form-group form-group-xs" style="margin-bottom: 3px; width: 100%;">
+            <label>&nbsp;</label>
+
+            <label>&nbsp;</label>
+            <button type="button" class="btn btn-primary btn-xs" style="width: 180px" onclick="javascript:SaveGathGrid()" id="editEx2">Download</button>
+            <label>&nbsp;</label>
+            <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <button type="button" class="btn btn-primary btn-xs text-right" style="width: 90px" id="btnSearch2" onclick="searchData2(1)">Search</button>
+            <button type="reset" class="btn btn-default btn-xs text-right" style="width: 90px" id="btnClearSearch2" onclick="ClearSearch2()">Clear</button>
+        </div>
+    </div>
+
+    <div class="table-responsive col-xs-12 col-sm-12" style="overflow: hidden;">
+        <div style="border: 1pt solid #ccc;">
+            <div id="tScrollHead2" style="width: 98.5%; overflow: hidden;">
+                <table id="dynamic-table2" class="table table-striped table-bordered table-condensed table-fixed" style="width: 1200px; table-layout: fixed; max-width: 1200px !important;">
+                    <colgroup>
+                        <col width="20px" />
+                        <!--checkbok-->
+                        <col width="200px" />
+                        <!--fiscal Year-->
+                        <col width="200px" />
+                        <!--Division-->
+                        <col width="200px" />
+                        <!--CSR Pillar-->
+                        <col width="240px" />
+                        <!--Event Name-->
+                        <col width="200px" />
+                        <!--Event Date-->
+                        <col width="200px" />
+                        <!--Event Vanue-->
+                        <col width="200px" />
+                        <!--VIP Participant-->
+
+
+
+                        <col width="200px" />
+                        <!--Objective 2-->
+                        <col width="200px" />
+                        <!--Objective 3-->
+                        <col width="150px" />
+                        <!--Message 1-->
+
+
+
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th class="grid-checkbox-col" rowspan="2">
+                                <input class="grid-checkbox" type="checkbox" style="height: 12px;" id="checkall2" onclick="selectAllPressRelease2()" />
+                            </th>
+                            <th rowspan="2">ID No.</th>
+                            <th rowspan="2">Part Code</th>
+                            <th rowspan="2">Frame No.</th>
+                            <th rowspan="2">Katashiki</th>
+                            <th rowspan="2">Production Suffix</th>
+                            <th rowspan="2">Sales Suffix</th>
+                            <th rowspan="2">Exterior Color</th>
+                            <th rowspan="2">Destination</th>
+                            <th rowspan="2">LO Date</th>
+                            <th rowspan="2">Status</th>
+
+                        </tr>
+
+                    </thead>
+                </table>
+            </div>
+            <div id="tScrollBody2" style="overflow: scroll; height: 300px;">
+                <table id="tblScroll2" class="table table-striped table-bordered table-condensed table-fixed" style="table-layout: fixed; width: 1200px; max-width: 1200px !important;">
+                    <colgroup>
+                        <col width="20px" />
+                        <!--checkbok-->
+                        <col width="200px" />
+                        <!--fiscal Year-->
+                        <col width="200px" />
+                        <!--Division-->
+                        <col width="200px" />
+                        <!--CSR Pillar-->
+                        <col width="240px" />
+                        <!--Event Name-->
+                        <col width="200px" />
+                        <!--Event Date-->
+                        <col width="200px" />
+                        <!--Event Vanue-->
+                        <col width="200px" />
+                        <!--VIP Participant-->
+
+
+
+
+                        <col width="200px" />
+                        <!--Objective 2-->
+                        <col width="200px" />
+                        <!--Objective 3-->
+                        <col width="150px" />
+                        <!--Message 1-->
+
+
+                    </colgroup>
+                    <tbody>
+                        @if (SimpleGrid2 != null)
+                        {
+                            if (SimpleGrid2.Count() > 0)
+                            {
+                                foreach (SIMPLEGRID Item in SimpleGrid2)
+                                {
+                            <tr style="vertical-align: central">
+                                <td class="text-center grid-checkbox-col">
+                                    <input style="max-width: 30px;" type="checkbox" class="grid-checkbox grid-checkbox-body check-agenda  checkboxInput" onclick="isChecked(this)" />
+                                    <span class="hide" id="ID2">@Item.IDNO</span>
+                                </td>
+                                <td class="text-center">@Item.IDNO</td>
+                                <td class="text-center">@Item.PART_CD</td>
+                                <td class="text-center"><u><a href="javascript:HrefDetail2()">@Item.ASD_VINNO</a></u></td>
+                                <td class="text-center">@Item.KATASHIKI </td>
+                                <td class="text-center">@Item.PRDCTN_SFX</td>
+                                <td class="text-center">@Item.SALES_SFX</td>
+                                <td class="text-center">@Item.EXT_CD </td>
+                                <td class="text-center">@Item.DEST</td>
+                                <td class="text-center">@Item.LO_DATE.ToString("dd/MM/yyyy") </td>
+                                <td class="text-center">@Item.SYSTEM_VALUE_TXT</td>
+
+                            </tr>
+                          
+                                }
+                            }
+                            if (SimpleGrid2.Count() <= 0)
+                            {
+                            <tr style="vertical-align: central" class="text-center">
+                                <td colspan="11">No Data Found</td>
+                            </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <table class="table table-striped table-bordered table-condensed table-fixed" style="width: 100%">
+                    <tfoot>
+                        <tr>
+                            <td colspan="13">
+                                @Html.Partial("_UIPaging")
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#tScrollBody").scroll(function () {
+        $("#tScrollHead").scrollLeft($("#tScrollBody").scrollLeft());
+        $("#tScrollHead2").scrollLeft($("#tScrollBody").scrollLeft());
+        $("#tScrollHead3").scrollLeft($("#tScrollBody").scrollLeft());
+        $("#tScrollHead4").scrollLeft($("#tScrollBody").scrollLeft());
+    });
+    $("#tScrollBody2").scroll(function () {
+        $("#tScrollHead").scrollLeft($("#tScrollBody2").scrollLeft());
+        $("#tScrollHead2").scrollLeft($("#tScrollBody2").scrollLeft());
+        $("#tScrollHead3").scrollLeft($("#tScrollBody2").scrollLeft());
+        $("#tScrollHead4").scrollLeft($("#tScrollBody2").scrollLeft());
+    });
+    $("#tScrollBody3").scroll(function () {
+        $("#tScrollHead").scrollLeft($("#tScrollBody3").scrollLeft());
+        $("#tScrollHead2").scrollLeft($("#tScrollBody3").scrollLeft());
+        $("#tScrollHead3").scrollLeft($("#tScrollBody3").scrollLeft());
+        $("#tScrollHead4").scrollLeft($("#tScrollBody3").scrollLeft());
+    });
+    $("#tScrollBody4").scroll(function () {
+        $("#tScrollHead").scrollLeft($("#tScrollBody4").scrollLeft());
+        $("#tScrollHead2").scrollLeft($("#tScrollBody4").scrollLeft());
+        $("#tScrollHead3").scrollLeft($("#tScrollBody4").scrollLeft());
+        $("#tScrollHead4").scrollLeft($("#tScrollBody4").scrollLeft());
+    });
+    var table = document.getElementById("dynamic-table");
+    if (table != null) {
+        for (var i = 0; i < table.rows.length; i++) {
+            for (var j = 0; j < table.rows[i].cells.length; j++) {
+                table.rows[i].cells[j].onclick = function () {
+                    tableText(this);
+                    sorting_execute = '1';
+                };
+            }
+        }
+    }
+    var table = document.getElementById("dynamic-table2");
+    if (table != null) {
+        for (var i = 0; i < table.rows.length; i++) {
+            for (var j = 0; j < table.rows[i].cells.length; j++) {
+                table.rows[i].cells[j].onclick = function () {
+                    tableText(this);
+                    sorting_execute = '1';
+                };
+            }
+        }
+    }
+
+    var table = document.getElementById("dynamic-table3");
+    if (table != null) {
+        for (var i = 0; i < table.rows.length; i++) {
+            for (var j = 0; j < table.rows[i].cells.length; j++) {
+                table.rows[i].cells[j].onclick = function () {
+                    tableText(this);
+                    sorting_execute = '1';
+                };
+            }
+        }
+    }
+    var table = document.getElementById("dynamic-table4");
+    if (table != null) {
+        for (var i = 0; i < table.rows.length; i++) {
+            for (var j = 0; j < table.rows[i].cells.length; j++) {
+                table.rows[i].cells[j].onclick = function () {
+                    tableText(this);
+                    sorting_execute = '1';
+                };
+            }
+        }
+    }
+    function myNewFunction(sel) {
+        sel.options[sel.selectedIndex].text;
+    }
+ @*   function getDisableCombo() {
+        var disSH = $("#disSH").val();
+        var disDPH = $("#disDPH").val();
+        var disDIR = $("#disDIR").val();
+        var disDH = $("#disDH").val();
+        var gathID = $('.selected #gathID').text().trim();
+        $.ajax({
+            type: 'POST',
+            url: '@Html.Toyota().Page.GetActionUrl("GetDisableCombo")',
+                data: {
+                    gathID: gathID
+                },
+                success: function (result) {
+
+                },
+                error: function (result) {
+                    alert("data error");
+                }
+            })
+        }*@
+    function tableText(tableCell) {
+        var removeClass;
+        var addClass;
+        var dataSort;
+
+        if (tableCell.getAttribute("class").indexOf('sorting') >= 0) {
+            if (tableCell.getAttribute("class").indexOf('sorting_asc') >= 0) {
+
+                removeClass = 'sorting_asc';
+                addClass = 'sorting_desc';
+                dataSort = 'desc';
+
+            } else if (tableCell.getAttribute("class").indexOf('sorting_desc') >= 0) {
+
+                removeClass = 'sorting_desc';
+                addClass = 'sorting_none';
+                dataSort = 'none';
+
+            } else {
+
+                removeClass = 'sorting_none';
+                addClass = 'sorting_asc';
+                dataSort = 'asc';
+
+            }
+        }
+
+        //reset all
+        var tableReset = document.getElementById("dynamic-table");
+
+        if (tableReset != null) {
+            for (var i = 0; i < tableReset.rows.length; i++) {
+                for (var j = 0; j < tableReset.rows[i].cells.length; j++) {
+
+                    if (tableReset.rows[i].cells[j].className.indexOf('sorting_asc') >= 0) {
+                        tableReset.rows[i].cells[j].classList.remove('sorting_asc');
+                        tableReset.rows[i].cells[j].classList.add('sorting');
+                        tableReset.rows[i].cells[j].dataset.sort = 'none';
+                    }
+
+                    if (tableReset.rows[i].cells[j].className.indexOf('sorting_desc') >= 0) {
+                        tableReset.rows[i].cells[j].classList.remove('sorting_desc');
+                        tableReset.rows[i].cells[j].classList.add('sorting');
+                        tableReset.rows[i].cells[j].dataset.sort = 'none';
+                    }
+
+                }
+            }
+        }
+        var tableReset2 = document.getElementById("dynamic-table2");
+
+        if (tableReset2 != null) {
+            for (var i = 0; i < tableReset2.rows.length; i++) {
+                for (var j = 0; j < tableReset2.rows[i].cells.length; j++) {
+
+                    if (tableReset2.rows[i].cells[j].className.indexOf('sorting_asc') >= 0) {
+                        tableReset2.rows[i].cells[j].classList.remove('sorting_asc');
+                        tableReset2.rows[i].cells[j].classList.add('sorting');
+                        tableReset2.rows[i].cells[j].dataset.sort = 'none';
+                    }
+
+                    if (tableReset2.rows[i].cells[j].className.indexOf('sorting_desc') >= 0) {
+                        tableReset2.rows[i].cells[j].classList.remove('sorting_desc');
+                        tableReset2.rows[i].cells[j].classList.add('sorting');
+                        tableReset2.rows[i].cells[j].dataset.sort = 'none';
+                    }
+
+                }
+            }
+        }
+
+        var tableReset3 = document.getElementById("dynamic-table3");
+
+        if (tableReset3 != null) {
+            for (var i = 0; i < tableReset3.rows.length; i++) {
+                for (var j = 0; j < tableReset3.rows[i].cells.length; j++) {
+
+                    if (tableReset3.rows[i].cells[j].className.indexOf('sorting_asc') >= 0) {
+                        tableReset3.rows[i].cells[j].classList.remove('sorting_asc');
+                        tableReset3.rows[i].cells[j].classList.add('sorting');
+                        tableReset3.rows[i].cells[j].dataset.sort = 'none';
+                    }
+
+                    if (tableReset3.rows[i].cells[j].className.indexOf('sorting_desc') >= 0) {
+                        tableReset3.rows[i].cells[j].classList.remove('sorting_desc');
+                        tableReset3.rows[i].cells[j].classList.add('sorting');
+                        tableReset3.rows[i].cells[j].dataset.sort = 'none';
+                    }
+
+                }
+            }
+        }
+
+        var tableReset4 = document.getElementById("dynamic-table4");
+
+        if (tableReset4 != null) {
+            for (var i = 0; i < tableReset4.rows.length; i++) {
+                for (var j = 0; j < tableReset4.rows[i].cells.length; j++) {
+
+                    if (tableReset4.rows[i].cells[j].className.indexOf('sorting_asc') >= 0) {
+                        tableReset4.rows[i].cells[j].classList.remove('sorting_asc');
+                        tableReset4.rows[i].cells[j].classList.add('sorting');
+                        tableReset4.rows[i].cells[j].dataset.sort = 'none';
+                    }
+
+                    if (tableReset4.rows[i].cells[j].className.indexOf('sorting_desc') >= 0) {
+                        tableReset4.rows[i].cells[j].classList.remove('sorting_desc');
+                        tableReset4.rows[i].cells[j].classList.add('sorting');
+                        tableReset4.rows[i].cells[j].dataset.sort = 'none';
+                    }
+
+                }
+            }
+        }
+        // end
+
+        if (tableCell.getAttribute("class").indexOf('sorting') >= 0) {
+            tableCell.classList.remove(removeClass);
+            tableCell.classList.add(addClass);
+            tableCell.dataset.sort = dataSort;
+
+            $.ajax({
+                type: "GET",
+                url: '@Html.Toyota().Page.GetActionUrl("GetPRInquirySort")',
+                data: {
+                    field: tableCell.dataset.field,
+                    sort: dataSort
+                },
+                contentType: "application/json; charset=utf-8",
+                success: function (result) {
+                    $("#tblScroll")
+                            .find('tbody')
+                            .html(
+                                result
+                            );
+                    $("#tblScroll2")
+                    .find('tbody')
+                    .html(
+                        result
+                    );
+                    $("#tblScroll3")
+                  .find('tbody')
+                  .html(
+                      result
+                  );
+                    $("#tblScroll4")
+                  .find('tbody')
+                  .html(
+                      result
+                  );
+                }
+            });
+        }
+    }
+</script>

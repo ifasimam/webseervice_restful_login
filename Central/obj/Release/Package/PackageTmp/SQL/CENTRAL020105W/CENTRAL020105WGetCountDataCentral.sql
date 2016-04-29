@@ -1,0 +1,1 @@
+﻿select  a.PART_DESC, * FROM TB_M_TERMINAL_FORMATTING b inner join TB_M_PART a on a.MSG_NO =b.MSG_NO

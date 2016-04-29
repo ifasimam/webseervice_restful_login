@@ -1,0 +1,103 @@
+﻿@************************************************************************************************************
+ * Program History :                                                                                        *
+ *                                                                                                          *
+ * Project Name     : CORPORATE INFORMATION SYSTEM                                                          *
+ * Client Name      : PT. TMMIN (Toyota Manufacturing Motor Indonesia)                                      *
+ * Function Id      : Paging                                                                                *
+ * Function Name    : Paging                                                                                *
+ * Function Group   : Paging                                                                                *
+ * Program Id       : _UIPaging                                                                             *
+ * Program Name     : UI Paging View                                                                        *
+ * Program Type     : View                                                                                  *
+ * Description      :                                                                                       *
+ * Environment      : .NET 4.0, ASP MVC 4.0                                                                 *
+ * Author           : FID.Witan                                                                              *
+ * Version          : 01.00.00                                                                              *
+ * Creation Date    : 20/01/2016 15:05:40                                                                   *
+ *                                                                                                          *
+ * Update history		Re-fix date				Person in charge				Description					*
+ *                                                                                                          *
+ * Copyright(C) 2016 - Fujitsu Indonesia. All Rights Reserved                                               *
+ ************************************************************************************************************@
+
+@using CIS.Models.Standards
+@{ 
+    PagingModel pgmd = (PagingModel)ViewData["CountData"];
+    var size = pgmd.DefaultPageSizeItem();
+}
+
+@if (pgmd.CountData > 0) {
+    <div class="col-xs-12 col-sm-9" style="height: 30px;">
+        <ul class="pagination pagination-sm hidden-xs">
+
+            <li>
+                <span class="_pagination-label">Showing @pgmd.Start
+                    to @pgmd.End 
+                    of @pgmd.CountData row(s)</span>
+            </li>
+            <li><span><a href="javascript: onSearchData(@pgmd.FirstPage)">First</a></span></li>
+            <li><span><a href="javascript: onSearchData(@pgmd.PrevPage)">Prev</a></span></li>
+                @foreach (int i in pgmd.IndexList)
+                {
+                    <li class="@(i == pgmd.CurrentPage ? "active":"")">
+                        <a href="javascript: onSearchData(@i)">@i</a>
+                        @if (i == pgmd.CurrentPage)
+                        { 
+                            <input type="hidden" id="currentPage" value="@i" />
+                        }
+                    </li>
+                }
+            <li><span><a href="javascript: onSearchData(@pgmd.NextPage)">Next</a></span></li>
+            <li><span><a href="javascript: onSearchData(@pgmd.LastPage)">Last</a></span></li>
+            <li><span class="_pagination-empty"></span></li>
+            <li>    
+                <span class="_pagination-goto">
+                    <input type="text" class="_number-only" maxlength="4" />
+                    <input hidden="hidden" value="@pgmd.Length" class="_max-page" />
+                    <input hidden="hidden" value="@pgmd.ControllerName" class="_controllerName" />
+                </span>
+            </li>
+            <li>
+                <span class="_pagination-goto">
+                    <button type="button" class="_btn-go" onclick="javascript: onSearchData($('._number-only').val())">Go</button>
+                </span>
+            </li>
+        </ul>
+    </div>
+    <div class="col-xs-12 col-sm-3 text-right" style="height: 30px; padding-top: 3px;">
+        <div class="form-inline">
+                <span>Size</span>&nbsp;
+                <select class="input-xs page-size">
+                    @foreach(int item in size)
+                    {
+                        <option @(item == pgmd.CurrentPageSize ? "selected":"")>@item</option>
+                    }
+                </select>
+        </div>
+    </div>
+}
+else
+{
+    <div class="col-xs-12 col-sm-9" style="height: 30px;">
+        <ul class="pagination pagination-sm hidden-xs">
+        </ul>
+    </div>
+}
+
+<script type="text/javascript">
+    function executeFunctionByName(functionName, context , args) {
+        var args = [].slice.call(arguments).splice(2);
+        var namespaces = functionName.split(".");
+        var func = namespaces.pop();
+        for (var i = 0; i < namespaces.length; i++) {
+            context = context[namespaces[i]];
+        }
+        return context[func].apply(context, args);
+    }
+
+    $('.page-size').on('change', function (event) {
+        var currPage = $('.pagination > li.active a')[0].innerHTML;
+        var functionName = "onSearchData";
+        executeFunctionByName(functionName, window, currPage);
+    });
+</script>
