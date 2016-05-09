@@ -13,5 +13,6 @@ namespace Central.Models.CENTRAL010102W
         public string ROLE { get; set; }
         public string SYSTEM_CD { get; set; }
         public string TM_CD { get; set; }
+        public string TM_DESC { get; set; }
     }
 }

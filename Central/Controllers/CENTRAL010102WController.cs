@@ -1,4 +1,25 @@
-﻿using Central.Models.CENTRAL010102W;
+﻿/************************************************************************************************
+ * Program History : 
+ * 
+ * Project Name     : VEHICLE ENTERPRISE ARCHITECTURE TRACEABILITY (CENTRAL)
+ * Client Name      : PT. TMMIN (Toyota Manufacturing Motor Indonesia)
+ * Function Id      : CENTRAL010102W
+ * Function Name    : Webservice for mobile user login
+ * Function Group   : -
+ * Program Id       : CENTRAL010102WController
+ * Program Name     : User Login Screen for Mobile
+ * Program Type     : Controller
+ * Description      : Get parameter from Android device then validate with db result (Active Directory)
+ * Environment      : .NET 4.0, ASP MVC 4.0
+ * Author           : FID.Imam Ibnu
+ * Version          : 01.00.00
+ * Creation Date    : 23/04/2016   
+ * 
+ * Update history     Re-fix date       Person in charge      Description 
+ * 1.1                2016/05/09        FID.Imam Ibnu         Update field message content & Add TM_DESC
+ * Copyright(C) 2016 - . All Rights Reserved                                                                                              
+ *************************************************************************************************/
+using Central.Models.CENTRAL010102W;
 using Central.Models.CENTRALMessage;
 using System;
 using System.Collections.Generic;
@@ -16,9 +37,10 @@ namespace Central.Controllers
             CENTRAL010102W result = null;
             bool status = false;
             string message = "Null";
-            string shift = "Null";
-            string role = "Null";
+            string shift = "Null"; //Result from active directory
+            string role = "Null"; //Result from active directory
             string tmcd = "Null";
+            string tmdesc = "Null";
 
             try
             {
@@ -39,6 +61,7 @@ namespace Central.Controllers
                                 message = "User Registered";
                                 //userid = result.USER_ID;                            
                                 tmcd = result.TM_CD;
+                                tmdesc = result.TM_DESC;
                             }
 
                         }
@@ -56,7 +79,7 @@ namespace Central.Controllers
                 }
                 else
                 {
-                    message = CENTRALMessageRepository.Instance.getMessageContent("MCENSTD002E", null);//{0} should not be empty
+                    message = CENTRALMessageRepository.Instance.getMessageContent("MCENSTD002E", null);//Username & Pass should not be empty
                 }
                 
                 //
@@ -71,6 +94,7 @@ namespace Central.Controllers
             {
                 userName = userID,
                 terminalCode = tmcd,
+                terminalDesc = tmdesc,
                 shift = shift,
                 roleID = role,
                 content = message,
@@ -88,10 +112,11 @@ namespace Central.Controllers
             {
                 userName = "",
                 terminalCode = "",
+                terminalDesc = "",
                 shift = "",
                 roleID = "",
                 content = message,
-                status = true
+                status = false
             }, JsonRequestBehavior.AllowGet);
         }
     }

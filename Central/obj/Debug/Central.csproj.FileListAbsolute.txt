@@ -843,6 +843,6 @@ D:\DATA KERJA\FUJITSU INDONESIA\data_program\webservice_program\CENTRAL\Central\
 D:\DATA KERJA\FUJITSU INDONESIA\data_program\webservice_program\CENTRAL\Central\bin\WebMatrix.Data.xml
 D:\DATA KERJA\FUJITSU INDONESIA\data_program\webservice_program\CENTRAL\Central\bin\Microsoft.Web.WebPages.OAuth.xml
 D:\DATA KERJA\FUJITSU INDONESIA\data_program\webservice_program\CENTRAL\Central\bin\WebMatrix.WebData.xml
-D:\DATA KERJA\FUJITSU INDONESIA\data_program\webservice_program\CENTRAL\Central\obj\Debug\Central.csprojResolveAssemblyReference.cache
 D:\DATA KERJA\FUJITSU INDONESIA\data_program\webservice_program\CENTRAL\Central\obj\Debug\Central.dll
 D:\DATA KERJA\FUJITSU INDONESIA\data_program\webservice_program\CENTRAL\Central\obj\Debug\Central.pdb
+D:\DATA KERJA\FUJITSU INDONESIA\data_program\webservice_program\CENTRAL\Central\obj\Debug\Central.csprojResolveAssemblyReference.cache

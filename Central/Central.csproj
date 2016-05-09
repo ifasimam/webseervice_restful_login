@@ -1387,10 +1387,14 @@
     <Content Include="Views\Visualization\_WidgetSettings.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Configurations\Database-DEV.config" />
+    <Content Include="Configurations\Database-DEV.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Configurations\Locale-US.config" />
     <Content Include="Configurations\SingleSignOn-DEV.config" />
-    <Content Include="Configurations\System.config" />
+    <Content Include="Configurations\System.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Bootstrap\css\less\ace-features.less" />
@@ -1782,6 +1786,7 @@
     <Content Include="Views\CENTRAL030102W\CENTRAL030102WSimpleGridH.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\PublishProfiles\ibnu.pubxml" />
     <None Include="Properties\PublishProfiles\imam.pubxml" />
     <None Include="Properties\PublishProfiles\joseph.pubxml" />
   </ItemGroup>
