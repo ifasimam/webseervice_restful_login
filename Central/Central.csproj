@@ -298,6 +298,7 @@
     <Compile Include="Models\CENTRAL030101W\CENTRAL030101WRepository.cs" />
     <Compile Include="Models\CENTRAL030102W\CENTRAL030102W.cs" />
     <Compile Include="Models\CENTRAL030102W\CENTRAL030102WRepository.cs" />
+    <Compile Include="Models\CENTRALMail\CENTRAL010101WMailRepository.cs" />
     <Compile Include="Models\CENTRALMessage\CENTRALLogMonitoring.cs" />
     <Compile Include="Models\CENTRALMessage\CENTRALMessage.cs" />
     <Compile Include="Models\CENTRALMessage\CENTRALMessageRepository.cs" />
