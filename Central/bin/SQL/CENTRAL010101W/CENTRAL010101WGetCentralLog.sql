@@ -1,0 +1,6 @@
+﻿SELECT 
+VAL,
+FLAG 
+FROM TB_H_SFN_CENTRAL_LOG
+WHERE VAL = @Val
+and FLAG = '1'

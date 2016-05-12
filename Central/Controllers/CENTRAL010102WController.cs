@@ -67,19 +67,19 @@ namespace Central.Controllers
                         }
                         else
                         {
-                            message = CENTRALMessageRepository.Instance.getMessageContent("MCENT112202E", null);//Please enter your correct user id
+                            message = CENTRALMessageRepository.Instance.getMessageContent("MCENT112202E", null).MSG_DESC;//Please enter your correct user id
                         }
 
                     }
                     else
                     {
                         //status = false;
-                        message = CENTRALMessageRepository.Instance.getMessageContent("MCENT112203E", null);//User Not Yet Register
+                        message = CENTRALMessageRepository.Instance.getMessageContent("MCENT112203E", null).MSG_DESC;//User Not Yet Register
                     }
                 }
                 else
                 {
-                    message = CENTRALMessageRepository.Instance.getMessageContent("MCENSTD002E", null);//Username & Pass should not be empty
+                    message = CENTRALMessageRepository.Instance.getMessageContent("MCENSTD002E", null).MSG_DESC;//Username & Pass should not be empty
                 }
                 
                 //
@@ -106,7 +106,7 @@ namespace Central.Controllers
         [HttpGet]
         public JsonResult forgotPass(string msgCD)
         {
-           String message = CENTRALMessageRepository.Instance.getMessageContent(msgCD, null);//Please enter your correct user id
+           String message = CENTRALMessageRepository.Instance.getMessageContent(msgCD, null).MSG_DESC;//Please enter your correct user id
 
             return Json(new
             {

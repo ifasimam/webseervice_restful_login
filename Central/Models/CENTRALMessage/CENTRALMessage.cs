@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Central.Models.CENTRALMessage
 {
-    public class CENTRALMessage
+    public class CENTRALMessageDomain
     {
         public string MSG_ID { get; set; }
         public string MSG_TYPE { get; set; }

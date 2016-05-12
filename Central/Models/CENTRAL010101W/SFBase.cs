@@ -7,6 +7,7 @@ namespace Central.Models.CENTRAL010101W
 {
     public class SFBase
     {
+        public int COUNTING_PARTID { get; set; }
         public string IDNO { get; set; }
         public string ASD_VINNO { get; set; }
         public string BDNO { get; set; }
@@ -80,5 +81,7 @@ namespace Central.Models.CENTRAL010101W
         public string PROC_TM_A0 { get; set; }
         public string PROC_DT_Q0 { get; set; }
         public string PROG_TM_Q0 { get; set; }
+        public string STS { get; set; }
+        public TerminalFormat validFormat { get; set; }
     }
 }
