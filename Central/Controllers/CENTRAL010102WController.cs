@@ -79,7 +79,7 @@ namespace Central.Controllers
                 }
                 else
                 {
-                    message = CENTRALMessageRepository.Instance.getMessageContent("MCENSTD002E", null).MSG_DESC;//Username & Pass should not be empty
+                    message = CENTRALMessageRepository.Instance.getMessageContent("MCENSTD002E", new string[]{"User ID and Password"}).MSG_DESC;//Username & Pass should not be empty
                 }
                 
                 //

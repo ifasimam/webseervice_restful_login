@@ -125,13 +125,13 @@ namespace Central.Models.CENTRAL010101W
             return result;
         }
 
-        public IList<CentralHeader> GetCentralHeader(string BodyNo)
+        public IList<CentralHeader> GetCentralHeader(string BodyNo, string IdNo)
         {
             IList<CentralHeader> result = null;
             try
             {
                 IDBContext db = DatabaseManager.Instance.GetContext();
-                result = db.Fetch<CentralHeader>("CENTRAL010101W/CENTRAL010101WGetCentralHeader", new { BodyNo = BodyNo });
+                result = db.Fetch<CentralHeader>("CENTRAL010101W/CENTRAL010101WGetCentralHeader", new { BodyNo = BodyNo, IdNo = IdNo });
                 db.Close();
             }
             catch

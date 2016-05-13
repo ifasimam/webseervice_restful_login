@@ -31,7 +31,7 @@ namespace Central.Models.CENTRALSystem
             try
             {
                 IDBContext db = DatabaseManager.Instance.GetContext();
-                IList<CentralSystem> retrieved = db.Fetch<CentralSystem>("CENTRAL010101W/CENTRALSystemGetTextValue", new { SYSTEM_TYPE = systemType, SYSTEM_CD = systemCD });
+                IList<CentralSystem> retrieved = db.Fetch<CentralSystem>("CENTRALSystem/CENTRALSystemGetTextValue", new { SYSTEM_TYPE = systemType, SYSTEM_CD = systemCD });
                 db.Close();
                 if (retrieved.Count > 0)
                 {

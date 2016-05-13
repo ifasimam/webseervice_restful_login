@@ -1,0 +1,178 @@
+﻿<div id="delete-conf" class="modal fade"> 
+    <div class="modal-dialog modal-md" style="width: 400px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true"><img src="@Url.Content("~/Content/Bootstrap/img/question.png")" class="modal-icon" /></span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title" id="popup-title">Confirmation</h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="modal-body">
+                    <input type="text" id="PARAMDELETE" value=""/>
+                    <div class="row" style="padding-left: 10px;">
+                        <div id="MsgDeleteModal">&nbsp;</div>
+                    </div>
+                    <div class="row" style="text-align: right;padding-right: 10px; margin-top: 10px;">
+                        <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;" id="btnDelete" onclick="javascript:onDeleteData()">Yes</button>
+                        <button class="btn btn-danger btn-xs" data-dismiss="modal" style="width: 60px;" id="btnCanceldel">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="delete-confirm" class="modal fade"> 
+    <div class="modal-dialog modal-md" style="width: 400px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true"><img src="@Url.Content("~/Content/Bootstrap/img/question.png")" class="modal-icon" /></span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title" id="popup-title">Confirmation</h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="modal-body">
+                    @*<input type="text" id="PARAMDELETE" value=""/>*@
+                    <div class="row" style="padding-left: 10px;" id="deleteModal">
+                        
+                    </div>
+                    <div class="row" style="text-align: right;padding-right: 10px; margin-top: 10px;">
+                        <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;" id="btnDelete" onclick="javascript:onDeleteData()">Yes</button>
+                        <button class="btn btn-danger btn-xs" data-dismiss="modal" style="width: 60px;" id="btnCanceldel">No</button>
+                    </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="delete-confirm_header" class="modal fade"> 
+    <div class="modal-dialog modal-md" style="width: 400px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true"><img src="@Url.Content("~/Content/Bootstrap/img/question.png")" class="modal-icon" /></span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title" id="popup-title">Confirmation</h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="modal-body">
+                    <div class="row" style="padding-left: 10px;">
+                        Are you sure want to delete(s)?
+                    </div>
+                    <div class="row" style="text-align: right;padding-right: 10px; margin-top: 10px;">
+                        <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;" onclick="javascript:onDeleteDataHeader()">Yes</button>
+                        <button class="btn btn-danger btn-xs" data-dismiss="modal" style="width: 60px;">No</button>
+                    </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="reject-confirm" class="modal fade"> 
+    <div class="modal-dialog modal-md" style="width: 400px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true"><img src="@Url.Content("~/Content/Bootstrap/img/question.png")" class="modal-icon" /></span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title" id="popup-title">Confirmation</h4>
+            </div>
+
+            <div class="modal-body" style="padding-top: 0px;">
+                <div class="row" style="padding-left: 10px;">
+                    Rejection memo
+                </div>
+                <div class="row" style="padding-left: 10px;">
+                    <textarea class="form-control limited" id="REMARK" name="REMARK" maxlength="100"></textarea>
+                </div>
+                <div class="row" style="text-align: right;padding-right: 0px; padding-top: 5px; margin-top: 10px;">
+                    <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;" onclick="javascript:onReject()">Confirm</button>
+                    <button class="btn btn-danger btn-xs" data-dismiss="modal" style="width: 60px;">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- select warning -->
+
+<div id="selected-0-confirm" class="modal fade"> 
+    <div class="modal-dialog modal-md" style="width: 300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true"><img src="@Url.Content("~/Content/Bootstrap/img/Warning.png")" class="modal-icon" /></span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title" id="popup-title">Warning</div>
+
+            <div class="modal-body">
+                <div class="row" style="padding-left: 10px;">
+                    @*Please select data.*@
+                    <div id="warningModal">&nbsp;</div>
+                </div>
+                <div class="row" style="text-align: right;padding-right: 10px; padding-top: 5px;">
+                    <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="selected-info" class="modal fade"> 
+    <div class="modal-dialog modal-md" style="width: 300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true"><img src="@Url.Content("~/Content/Bootstrap/img/information.png")" class="modal-icon" /></span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title" id="popup-title">Information</div>
+
+            <div class="modal-body">
+                <div class="row" style="padding-left: 10px;">
+                    <div id="infoModal">&nbsp;</div>
+                </div>
+                <div class="row" style="text-align: right;padding-right: 10px; padding-top: 5px;">
+                    <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Select error -->
+
+<div id="selected-error" class="modal fade"> 
+    <div class="modal-dialog modal-md" style="width: 300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="close" style="opacity: 1 !important; margin-top: -7px;">
+                    <span aria-hidden="true"><img src="@Url.Content("~/Content/Bootstrap/img/Error.png")" class="modal-icon" /></span>
+                    <span class="sr-only">Close</span>
+                </div>
+                <h4 class="modal-title" id="popup-title">Error</div>
+
+            <div class="modal-body">
+                <div class="row" style="padding-left: 10px;">
+                    <div id="errorModal">&nbsp;</div>
+                </div>
+                <div class="row" style="text-align: right;padding-right: 10px; padding-top: 5px;">
+                    <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal" style="width: 60px;">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

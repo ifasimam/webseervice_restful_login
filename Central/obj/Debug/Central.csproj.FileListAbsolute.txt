@@ -830,9 +830,7 @@ D:\DATA KERJA\FUJITSU INDONESIA\data_program\webservice_program\CENTRAL\Central\
 D:\DATA KERJA\FUJITSU INDONESIA\data_program\webservice_program\CENTRAL\Central\bin\Toyota.Common.Workflow.dll
 D:\DATA KERJA\FUJITSU INDONESIA\data_program\webservice_program\CENTRAL\Central\bin\NPOI.xml
 D:\DATA KERJA\FUJITSU INDONESIA\data_program\webservice_program\CENTRAL\Central\bin\Microsoft.Web.Infrastructure.xml
-D:\DATA KERJA\FUJITSU INDONESIA\data_program\webservice_program\CENTRAL\Central\bin\System.Net.Http.xml
 D:\DATA KERJA\FUJITSU INDONESIA\data_program\webservice_program\CENTRAL\Central\bin\System.Net.Http.Formatting.xml
-D:\DATA KERJA\FUJITSU INDONESIA\data_program\webservice_program\CENTRAL\Central\bin\System.Net.Http.WebRequest.xml
 D:\DATA KERJA\FUJITSU INDONESIA\data_program\webservice_program\CENTRAL\Central\bin\System.Web.Helpers.xml
 D:\DATA KERJA\FUJITSU INDONESIA\data_program\webservice_program\CENTRAL\Central\bin\System.Web.Http.xml
 D:\DATA KERJA\FUJITSU INDONESIA\data_program\webservice_program\CENTRAL\Central\bin\System.Web.Http.WebHost.xml
@@ -932,3 +930,20 @@ D:\Project\Central\svn\Central update\Central\bin\SQL\CENTRALMessage\CENTRALMess
 D:\Project\Central\svn\Central update\Central\bin\SQL\CENTRALMessage\CENTRALMessageGetProcessID.sql
 D:\Project\Central\svn\Central update\Central\bin\SQL\CENTRALMessage\CENTRALMessageInsertLogDetail.sql
 D:\Project\Central\svn\Central update\Central\bin\SQL\CENTRALMessage\CENTRALMessageInsertLogHeader.sql
+D:\DATA KERJA\FUJITSU INDONESIA\data_program\webservice_program\CENTRAL\Central\bin\SQL\CENTRAL010101W\CENTRAL010101WDeleteCentral.sql
+D:\DATA KERJA\FUJITSU INDONESIA\data_program\webservice_program\CENTRAL\Central\bin\SQL\CENTRAL010101W\CENTRAL010101WGetBodyByBodyNo.sql
+D:\DATA KERJA\FUJITSU INDONESIA\data_program\webservice_program\CENTRAL\Central\bin\SQL\CENTRAL010101W\CENTRAL010101WGetCentral.sql
+D:\DATA KERJA\FUJITSU INDONESIA\data_program\webservice_program\CENTRAL\Central\bin\SQL\CENTRAL010101W\CENTRAL010101WGetCentralHeader.sql
+D:\DATA KERJA\FUJITSU INDONESIA\data_program\webservice_program\CENTRAL\Central\bin\SQL\CENTRAL010101W\CENTRAL010101WGetCentralLog.sql
+D:\DATA KERJA\FUJITSU INDONESIA\data_program\webservice_program\CENTRAL\Central\bin\SQL\CENTRAL010101W\CENTRAL010101WGetJudgeStatus.sql
+D:\DATA KERJA\FUJITSU INDONESIA\data_program\webservice_program\CENTRAL\Central\bin\SQL\CENTRAL010101W\CENTRAL010101WGetTerminalFormat.sql
+D:\DATA KERJA\FUJITSU INDONESIA\data_program\webservice_program\CENTRAL\Central\bin\SQL\CENTRAL010101W\CENTRAL010101WInsertCentral.sql
+D:\DATA KERJA\FUJITSU INDONESIA\data_program\webservice_program\CENTRAL\Central\bin\SQL\CENTRAL010101W\CENTRAL010101WInsertCentralHeader.sql
+D:\DATA KERJA\FUJITSU INDONESIA\data_program\webservice_program\CENTRAL\Central\bin\SQL\CENTRAL010101W\CENTRAL010101WInsertCentralLog.sql
+D:\DATA KERJA\FUJITSU INDONESIA\data_program\webservice_program\CENTRAL\Central\bin\SQL\CENTRAL010101W\CENTRAL010101WInsertPartScan.sql
+D:\DATA KERJA\FUJITSU INDONESIA\data_program\webservice_program\CENTRAL\Central\bin\SQL\CENTRAL010101W\CENTRAL010101WUpdateCentral.sql
+D:\DATA KERJA\FUJITSU INDONESIA\data_program\webservice_program\CENTRAL\Central\bin\SQL\CENTRALMessage\CENTRALMessageGetLogDetailSeq.sql
+D:\DATA KERJA\FUJITSU INDONESIA\data_program\webservice_program\CENTRAL\Central\bin\SQL\CENTRALMessage\CENTRALMessageGetMessage.sql
+D:\DATA KERJA\FUJITSU INDONESIA\data_program\webservice_program\CENTRAL\Central\bin\SQL\CENTRALMessage\CENTRALMessageGetProcessID.sql
+D:\DATA KERJA\FUJITSU INDONESIA\data_program\webservice_program\CENTRAL\Central\bin\SQL\CENTRALMessage\CENTRALMessageInsertLogDetail.sql
+D:\DATA KERJA\FUJITSU INDONESIA\data_program\webservice_program\CENTRAL\Central\bin\SQL\CENTRALMessage\CENTRALMessageInsertLogHeader.sql

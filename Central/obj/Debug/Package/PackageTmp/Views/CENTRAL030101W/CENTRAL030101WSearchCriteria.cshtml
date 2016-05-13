@@ -1,0 +1,858 @@
+﻿@using Central.Models.CENTRAL030101W
+@{
+    string FLAG = Request.QueryString["FLAG"];
+    List<CENTRAL030101W> Central = new List<CENTRAL030101W>();
+    List<CENTRAL030101W> Central1 = new List<CENTRAL030101W>();
+    List<CENTRAL030101W> CentralDetail = new List<CENTRAL030101W>();
+    List<CENTRAL030101W> GetImgName = new List<CENTRAL030101W>();
+
+    List<CENTRAL030101W> Central2 = new List<CENTRAL030101W>();
+    List<CENTRAL030101W> Central12 = new List<CENTRAL030101W>();
+    List<CENTRAL030101W> CentralDetail2 = new List<CENTRAL030101W>();
+    List<CENTRAL030101W> GetImgName2 = new List<CENTRAL030101W>();
+    if (FLAG != "Detail2")
+    {
+        Central = (List<CENTRAL030101W>)ViewData["GetComboIDNO"];
+        Central1 = (List<CENTRAL030101W>)ViewData["GetComboPart"];
+        CentralDetail = (List<CENTRAL030101W>)ViewData["GetComboIDNO1"];
+        GetImgName = (List<CENTRAL030101W>)ViewData["GetNameImg"];
+    }
+    else
+    {
+        Central2 = (List<CENTRAL030101W>)ViewData["GetComboIDNO2"];
+        Central12 = (List<CENTRAL030101W>)ViewData["GetComboPart2"];
+        CentralDetail2 = (List<CENTRAL030101W>)ViewData["GetComboIDNO12"];
+        GetImgName2 = (List<CENTRAL030101W>)ViewData["GetNameImg2"];
+    }
+}
+<form role="form" class="form-horizontal _criteria" id="searchForm">
+    <div align="center">
+        <label>
+            <h3><b>NEW INNOVA GREY</b></h3>
+        </label>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6 form-group form-group-xs">
+            <div class="col-xs-8 col-sm-9 col-md-8">
+                <label></label>
+                <div class="item active">
+                    @*   <a href="~/Content/Image_upload/Background/@item.MSG_PIC_NM">@item.MSG_PIC_NM</a>*@
+                    @{
+                        if (FLAG != "Detail2")
+                        {
+                            string NmImg = Central.Select(p => p.IDNO).FirstOrDefault();
+                            string IDSys = NmImg.Substring(0, 3);
+                            GetImgName = GetImgName.Where(p => p.SYSTEM_CD == IDSys).ToList();
+                            string ImgName = GetImgName.Select(p => p.SYSTEM_VALUE_TXT).FirstOrDefault();
+                        <img src="@Url.Content("~/Content/Images/Login/" + @ImgName)" alt="INN" />
+                        }
+                        else
+                        {
+                            string NmImg = Central2.Select(p => p.IDNO).FirstOrDefault();
+                            string IDSys = NmImg.Substring(0, 3);
+                            GetImgName2 = GetImgName2.Where(p => p.SYSTEM_CD == IDSys).ToList();
+                            string ImgName = GetImgName2.Select(p => p.SYSTEM_VALUE_TXT).FirstOrDefault();
+                        <img src="@Url.Content("~/Content/Images/Login/" + @ImgName)" alt="INN2" />
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <table>
+                <tr>
+                    <td bgcolor="#aeaaaa" class="text-left">
+                        <p style="color: #000000;"><b><u>BASIC VEHICLE INFORMATION</u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></p>
+                    </td>
+                </tr>
+
+            </table>
+            @if (FLAG != "Detail2")
+            {
+
+
+                if (Central.Count() > 0)
+                {
+                    foreach (CENTRAL030101W item in Central)
+                    {
+                <table>
+                    <tr>
+                        <td width="100">ID NO</td>
+                        <td width="5">:</td>
+                        <td width="55">@item.IDNO</td>
+                    </tr>
+
+                    <tr>
+                        <td width="100">BODY NO</td>
+                        <td width="5">:</td>
+                        <td width="55">@item.BDNO</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                </table>
+                    }
+                }
+
+
+
+                if (Central1.Count() > 0)
+                {
+                    foreach (CENTRAL030101W item in Central1)
+                    {
+                <table>
+                    <tr>
+                        <td width="100">ENGINE NO</td>
+                        <td width="5">:</td>
+                        <td width="55">@item.VAL</td>
+                    </tr>
+                </table>
+                    }
+                }
+
+
+
+                if (CentralDetail.Count() > 0)
+                {
+                    foreach (CENTRAL030101W item in CentralDetail)
+                    {
+                <table>
+                    <tr>
+                        <td width="100">FRAME NO</td>
+                        <td width="5">:</td>
+                        <td width="55">@item.ASD_VINNO</td>
+                    </tr>
+
+                    <tr>
+                        <td width="100">KATASHIKI</td>
+                        <td width="5">:</td>
+                        <td width="55">@item.KATASHIKI</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td width="100">PSFX</td>
+                        <td width="5">:</td>
+                        <td width="55">@item.PRDCTN_SFX</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td width="100">SSFX</td>
+                        <td width="5">:</td>
+                        <td width="55">@item.SALES_SFX</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td width="100">EXT COLOR</td>
+                        <td width="5">:</td>
+                        <td width="55">@item.EXT_CD</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td width="100">DESINATION</td>
+                        <td width="5">:</td>
+                        <td width="55">@item.DEST</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td width="100">LO DATE</td>
+                        <td width="5">:</td>
+                        <td width="55">@item.LO_DATE</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                </table>
+                    }
+                }
+
+
+            }
+            else
+            {
+
+
+                if (Central2.Count() > 0)
+                {
+                    foreach (CENTRAL030101W item in Central2)
+                    {
+                <table>
+                    <tr>
+                        <td width="100">ID NO</td>
+                        <td width="5">:</td>
+                        <td width="55">@item.IDNO</td>
+                    </tr>
+
+                    <tr>
+                        <td width="100">BODY NO</td>
+                        <td width="5">:</td>
+                        <td width="55">@item.BDNO</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                </table>
+                    }
+                }
+
+
+
+                if (Central12.Count() > 0)
+                {
+                    foreach (CENTRAL030101W item in Central12)
+                    {
+                <table>
+                    <tr>
+                        <td width="100">ENGINE NO</td>
+                        <td width="5">:</td>
+                        <td width="55">@item.VAL</td>
+                    </tr>
+                </table>
+                    }
+                }
+
+
+
+                if (CentralDetail2.Count() > 0)
+                {
+                    foreach (CENTRAL030101W item in CentralDetail2)
+                    {
+                <table>
+                    <tr>
+                        <td width="100">FRAME NO</td>
+                        <td width="5">:</td>
+                        <td width="55">@item.ASD_VINNO</td>
+                    </tr>
+
+                    <tr>
+                        <td width="100">KATASHIKI</td>
+                        <td width="5">:</td>
+                        <td width="55">@item.KATASHIKI</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td width="100">PSFX</td>
+                        <td width="5">:</td>
+                        <td width="55">@item.PRDCTN_SFX</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td width="100">SSFX</td>
+                        <td width="5">:</td>
+                        <td width="55">@item.SALES_SFX</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td width="100">EXT COLOR</td>
+                        <td width="5">:</td>
+                        <td width="55">@item.EXT_CD</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td width="100">DESINATION</td>
+                        <td width="5">:</td>
+                        <td width="55">@item.DEST</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td width="100">LO DATE</td>
+                        <td width="5">:</td>
+                        <td width="55">@item.LO_DATE</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                </table>
+                    }
+                }
+
+            }
+            <div>
+                <table>
+                    <tr>
+                        <th bgcolor="#aeaaaa" class="text-left">
+                            <p style="color: #000000;"><b>&nbsp;&nbsp;&nbsp;&nbsp;<u>DETAIL VEHICLE INFORMATION</u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></p>
+                        </th>
+                    </tr>
+
+                </table>
+
+                <table>
+                    @if (FLAG != "Detail2")
+                    {
+                        if (Central.Count() > 0)
+                        {
+                            foreach (CENTRAL030101W item in Central)
+                            {
+                        <tr class="header expand">
+                            <th colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;<span class="sign"></span> Vehicle Information :</th>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Frame Type Code </td>
+                            <td>&nbsp;@item.FR_CD</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Frame Sequence No./VIN Serial No.</td>
+                            <td>&nbsp;@item.FR_SEQ</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Reference No.</td>
+                            <td>&nbsp;@item.REFNO</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - VIN Type</td>
+                            <td>&nbsp;@item.VIN_TYPE</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - WMI: World Manufacture Identifier</td>
+                            <td>&nbsp;@item.VIN_WMI</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - VDS: Vehicle Descriptor Section</td>
+                            <td>&nbsp;@item.VIN_VDS</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Basic Katashiki</td>
+                            <td>&nbsp;@item.VIN_KATA</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Frame sequence No. digits</td>
+                            <td>&nbsp;@item.VIN_FR68</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Model Year / Production Year</td>
+                            <td>&nbsp;@item.VIN_MY</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Maker Code</td>
+                            <td>&nbsp;@item.MAKER</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Spec Sheet No.</td>
+                            <td>&nbsp;@item.SNO</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Order Type</td>
+                            <td>&nbsp;@item.ODR_TYPE</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - DFSC / ED No.</td>
+                            <td>&nbsp;@item.DFSC</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Scheduled Lineoff Date</td>
+                            <td>&nbsp;@item.LO_DATE</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Vehicle Name Code</td>
+                            <td>&nbsp;@item.CAR_DESC</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Destination Type</td>
+                            <td>&nbsp;@item.DEST_TYPE</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Interior Code</td>
+                            <td>&nbsp;@item.INT_CD</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Exterior Color Code</td>
+                            <td>&nbsp;@item.EXT_CD</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Destination Code</td>
+                            <td>&nbsp;@item.DEST_CD</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Destination</td>
+                            <td>&nbsp;@item.DEST</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - PSC: Production Source Code</td>
+                            <td>&nbsp;@item.PSC</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Plant Code</td>
+                            <td>&nbsp;@item.PLANT_CD</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Production Suffix</td>
+                            <td>&nbsp;@item.PRDCTN_SFX</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Sales Suffix</td>
+                            <td>&nbsp;@item.SALES_SFX</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Import Duty Exemption</td>
+                            <td>&nbsp;@item.IMPORT_DUTY</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Sales Katashiki Code</td>
+                            <td>&nbsp;@item.KATA_CD</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Sales Katashiki</td>
+                            <td>&nbsp;@item.KATASHIKI</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Control Katashiki</td>
+                            <td>&nbsp;@item.CTLKATA</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Line Off Katashiki Code</td>
+                            <td>&nbsp;@item.LO_KATACODE</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Line Off Katashiki</td>
+                            <td>&nbsp;@item.LO_KATA</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Engine Basic Katashiki</td>
+                            <td>&nbsp;@item.ENG_B_KATA</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Motor Basic Katashiki</td>
+                            <td>&nbsp;@item.MOT_B_KATA</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Motor Basic Katashiki RR</td>
+                            <td>&nbsp;@item.MOT_B_KATARR</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Receipt Vehicle Base Type</td>
+                            <td>&nbsp;@item.RECEIPT_TYPE</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - KD Lot Code</td>
+                            <td>&nbsp;@item.KD_LOT</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Assigned Cowl / Frame Stamp Information before Body Start</td>
+                            <td>&nbsp;@item.ASD_FRMSTAMP</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Car Family Code</td>
+                            <td>&nbsp;@item.CAR_FAMILY</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Production Request Year & Month</td>
+                            <td>&nbsp;@item.PRDREQ_MONTH</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Brand</td>
+                            <td>&nbsp;@item.BRAND</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Secondary Sales Katashiki</td>
+                            <td>&nbsp;@item.KATASHIKI2</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Dummy (Vehicle Information)</td>
+                            <td>&nbsp;@item.DUM_V</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Spec ( 200 Digit )</td>
+                            <td>&nbsp;@item.SPEC200</td>
+                        </tr>
+                                            
+                        <tr class="header expand">
+                            <th colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;<span class="sign"></span> Traceability Item :</th>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Transmission</td>
+                            <td>&nbsp;@item.TRANS</td>
+                        </tr>
+                            }
+                        }
+
+                    
+                        if (Central1.Count() > 0)
+                        {
+                            foreach (CENTRAL030101W item in Central1)
+                            {
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Airbag Passenger</td>
+                            <td>&nbsp;@item.VAL</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Airbag Steering</td>
+                            <td>&nbsp;@item.VAL</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Airbag Curtain Pillar LH</td>
+                            <td>&nbsp;@item.VAL</td>
+                        </tr> 
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Airbag Curtain Pillar RH</td>
+                            <td>&nbsp;@item.VAL</td>
+                        </tr>                             
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Airbag Seat LH</td>
+                            <td>&nbsp;@item.VAL</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Airbag Seat RH</td>
+                            <td>&nbsp;@item.VAL</td>
+                        </tr>               
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Airbag Knee</td>
+                            <td>&nbsp;@item.VAL</td>
+                        </tr>               
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Airbag ECU</td>
+                            <td>&nbsp;@item.VAL</td>
+                        </tr>
+                            
+                        }}
+                  
+                        if (Central.Count() > 0)
+                        {
+                            foreach (CENTRAL030101W item in Central)
+                            {
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Tire1: Front Tire Size</td>
+                            <td>&nbsp;@item.FR_TIRESIZE</td>
+                        </tr> 
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Tire1: Rear Tire Size</td>
+                            <td>&nbsp;@item.RR_TIRESIZE</td>
+                        </tr> 
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Tire1: Front Rim Size</td>
+                            <td>&nbsp;@item.FR_RIMSIZE</td>
+                        </tr> 
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Tire1: Rear Rim Size</td>
+                            <td>&nbsp;@item.RR_RIMSIZE</td>
+                        </tr> 
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Tire1: Front Tire Pressure</td>
+                            <td>&nbsp;@item.FR_TIREPRSR</td>
+                        </tr> 
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Tire1: Rear Tire Pressure</td>
+                            <td>&nbsp;@item.RR_TIREPRSR</td>
+                        </tr> 
+
+                        <tr class="header expand">
+                            <th colspan="2" style="color: #0094ff;">&nbsp;&nbsp;&nbsp;&nbsp;<span></span>+ NVCS </th>
+                        </tr>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (Central2.Count() > 0)
+                        {
+                            foreach (CENTRAL030101W item in Central2)
+                            {
+                        <tr class="header expand">
+                            <th colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;<span class="sign"></span> Vehicle Information :</th>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Frame Type Code </td>
+                            <td>&nbsp;@item.FR_CD</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Frame Sequence No./VIN Serial No.</td>
+                            <td>&nbsp;@item.FR_SEQ</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Reference No.</td>
+                            <td>&nbsp;@item.REFNO</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - VIN Type</td>
+                            <td>&nbsp;@item.VIN_TYPE</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - WMI: World Manufacture Identifier</td>
+                            <td>&nbsp;@item.VIN_WMI</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - VDS: Vehicle Descriptor Section</td>
+                            <td>&nbsp;@item.VIN_VDS</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Basic Katashiki</td>
+                            <td>&nbsp;@item.VIN_KATA</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Frame sequence No. digits</td>
+                            <td>&nbsp;@item.VIN_FR68</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Model Year / Production Year</td>
+                            <td>&nbsp;@item.VIN_MY</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Maker Code</td>
+                            <td>&nbsp;@item.MAKER</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Spec Sheet No.</td>
+                            <td>&nbsp;@item.SNO</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Order Type</td>
+                            <td>&nbsp;@item.ODR_TYPE</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - DFSC / ED No.</td>
+                            <td>&nbsp;@item.DFSC</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Scheduled Lineoff Date</td>
+                            <td>&nbsp;@item.LO_DATE</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Vehicle Name Code</td>
+                            <td>&nbsp;@item.CAR_DESC</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Destination Type</td>
+                            <td>&nbsp;@item.DEST_TYPE</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Interior Code</td>
+                            <td>&nbsp;@item.INT_CD</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Exterior Color Code</td>
+                            <td>&nbsp;@item.EXT_CD</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Destination Code</td>
+                            <td>&nbsp;@item.DEST_CD</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Destination</td>
+                            <td>&nbsp;@item.DEST</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - PSC: Production Source Code</td>
+                            <td>&nbsp;@item.PSC</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Plant Code</td>
+                            <td>&nbsp;@item.PLANT_CD</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Production Suffix</td>
+                            <td>&nbsp;@item.PRDCTN_SFX</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Sales Suffix</td>
+                            <td>&nbsp;@item.SALES_SFX</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Import Duty Exemption</td>
+                            <td>&nbsp;@item.IMPORT_DUTY</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Sales Katashiki Code</td>
+                            <td>&nbsp;@item.KATA_CD</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Sales Katashiki</td>
+                            <td>&nbsp;@item.KATASHIKI</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Control Katashiki</td>
+                            <td>&nbsp;@item.CTLKATA</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Line Off Katashiki Code</td>
+                            <td>&nbsp;@item.LO_KATACODE</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Line Off Katashiki</td>
+                            <td>&nbsp;@item.LO_KATA</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Engine Basic Katashiki</td>
+                            <td>&nbsp;@item.ENG_B_KATA</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Motor Basic Katashiki</td>
+                            <td>&nbsp;@item.MOT_B_KATA</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Motor Basic Katashiki RR</td>
+                            <td>&nbsp;@item.MOT_B_KATARR</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Receipt Vehicle Base Type</td>
+                            <td>&nbsp;@item.RECEIPT_TYPE</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - KD Lot Code</td>
+                            <td>&nbsp;@item.KD_LOT</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Assigned Cowl / Frame Stamp Information before Body Start</td>
+                            <td>&nbsp;@item.ASD_FRMSTAMP</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Car Family Code</td>
+                            <td>&nbsp;@item.CAR_FAMILY</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Production Request Year & Month</td>
+                            <td>&nbsp;@item.PRDREQ_MONTH</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Brand</td>
+                            <td>&nbsp;@item.BRAND</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Secondary Sales Katashiki</td>
+                            <td>&nbsp;@item.KATASHIKI2</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Dummy (Vehicle Information)</td>
+                            <td>&nbsp;@item.DUM_V</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Spec ( 200 Digit )</td>
+                            <td>&nbsp;@item.SPEC200</td>
+                        </tr>
+                                            
+                        <tr class="header expand">
+                            <th colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;<span class="sign"></span> Traceability Item :</th>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Transmission</td>
+                            <td>&nbsp;@item.TRANS</td>
+                        </tr>
+                            }
+                        }
+
+                    
+                        if (Central12.Count() > 0)
+                        {
+                            foreach (CENTRAL030101W item in Central12)
+                            {
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Airbag Passenger</td>
+                            <td>&nbsp;@item.VAL</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Airbag Steering</td>
+                            <td>&nbsp;@item.VAL</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Airbag Curtain Pillar LH</td>
+                            <td>&nbsp;@item.VAL</td>
+                        </tr> 
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Airbag Curtain Pillar RH</td>
+                            <td>&nbsp;@item.VAL</td>
+                        </tr>                             
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Airbag Seat LH</td>
+                            <td>&nbsp;@item.VAL</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Airbag Seat RH</td>
+                            <td>&nbsp;@item.VAL</td>
+                        </tr>               
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Airbag Knee</td>
+                            <td>&nbsp;@item.VAL</td>
+                        </tr>               
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Airbag ECU</td>
+                            <td>&nbsp;@item.VAL</td>
+                        </tr>
+                            
+                        }}
+                  
+                        if (Central2.Count() > 0)
+                        {
+                            foreach (CENTRAL030101W item in Central2)
+                            {
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Tire1: Front Tire Size</td>
+                            <td>&nbsp;@item.FR_TIRESIZE</td>
+                        </tr> 
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Tire1: Rear Tire Size</td>
+                            <td>&nbsp;@item.RR_TIRESIZE</td>
+                        </tr> 
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Tire1: Front Rim Size</td>
+                            <td>&nbsp;@item.FR_RIMSIZE</td>
+                        </tr> 
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Tire1: Rear Rim Size</td>
+                            <td>&nbsp;@item.RR_RIMSIZE</td>
+                        </tr> 
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Tire1: Front Tire Pressure</td>
+                            <td>&nbsp;@item.FR_TIREPRSR</td>
+                        </tr> 
+                        <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp; - Tire1: Rear Tire Pressure</td>
+                            <td>&nbsp;@item.RR_TIREPRSR</td>
+                        </tr> 
+
+                        <tr class="header expand">
+                            <th colspan="2" style="color: #0094ff;">&nbsp;&nbsp;&nbsp;&nbsp;<span></span>+ NVCS </th>
+                        </tr>
+                            }
+                        }
+                    }
+                </table>
+
+                <div class="form-group form-group-xs _criteria">
+                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+
+                    <button type="button" class="btn btn-primary btn-xs" style="width: 120px" id="download_inquiry">Download</button>
+                    <button type="reset" class="btn btn-default btn-xs text-buttom" style="width: 90px" id="btnClose" onclick="closeTab()">Close</button>
+                </div>
+                <br />
+                <br />
+            </div>
+
+        </div>
+</form>

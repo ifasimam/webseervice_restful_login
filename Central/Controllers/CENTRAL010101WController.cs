@@ -914,7 +914,7 @@ namespace Central.Controllers
                     }
 
                     amountPart = filteredSfBases.Count();
-                    IList<CentralHeader> pf = CENTRAL010101WRepository.Instance.GetCentralHeader(bodyNo);
+                    IList<CentralHeader> pf = CENTRAL010101WRepository.Instance.GetCentralHeader(bodyNo, null);
                     if (pf != null && pf.Count() > 0)
                     {
                         //0: Operator

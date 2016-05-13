@@ -1,0 +1,532 @@
+﻿@using Central.Models.CENTRAL020106W;
+@using System.Linq;
+@using System.Collections.Generic;
+
+@{
+   
+    List<CENTRAL020106W> ComboPlant = (List<CENTRAL020106W>)ViewData["ComboPlant"];
+
+    List<CENTRAL020106W> ComboPartCode = (List<CENTRAL020106W>)ViewData["ComboPartCode"];
+    List<CENTRAL020106W> ConstrainNm1 = (List<CENTRAL020106W>)ViewData["ConstrainNm1"];
+    string FLAG = Request.QueryString["FLAG"];
+    string IDEdit = Request.QueryString["ID"];
+
+
+    List<CENTRAL020106W> ComboTerminal = (List<CENTRAL020106W>)ViewData["ComboTerminal"];
+    
+}
+<form role="form" class="form-horizontal _criteria" id="searchForm">
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-4">
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-4 control-label required-left text-muted">Plant</label>
+
+                <div class="col-xs-8 col-sm-9 col-md-8">
+
+
+                    @if (FLAG != "Edit")
+                    {
+                        <select id="PlanCD_val" class="form-control" style="width: 130px" onchange="GetComboTerm()">
+                            <option value="">ALL</option>
+                            @if (ComboPlant != null)
+                            {
+                                foreach (CENTRAL020106W item in ComboPlant)
+                                {
+                             
+                                <option value="@item.PLANT_CD">@item.PLANT_CD</option>
+                                }
+                            }
+                        </select>
+                    }
+                    else
+                    {
+                        <select id="PlanCD_valEdit" disabled class="form-control" style="width: 130px">
+                            @if (ComboPlant != null)
+                            {
+                                List<CENTRAL020106W> linqNew = ComboPlant;
+                                linqNew = linqNew.Where(p => p.PLANT_CD == IDEdit).ToList();
+                                foreach (CENTRAL020106W item in linqNew)
+                                {
+
+                                  
+                                <option value="@item.PLANT_CD">@item.PLANT_CD</option>
+                                }
+                            }
+                        </select>
+                    }
+
+
+                </div>
+            </div>
+            <div class="form-group form-group-xs">
+                <label class="col-xs-5 col-sm-4 col-md-4 control-label required-left text-muted">Terminal</label>
+
+                <div class="col-xs-8 col-sm-9 col-md-8">
+                    @if (FLAG != "Edit")
+                    {
+                        <select id="termCD_val" class="form-control" style="width: 130px">
+                            <option value="">ALL</option>
+
+
+                        </select>
+                    }
+                    else
+                    {
+                        <select id="termCD_valEdit" disabled class="form-control" style="width: 130px">
+                            @if (ComboTerminal != null)
+                            {
+
+                                foreach (CENTRAL020106W item in ComboTerminal)
+                                {
+                                <option value="@item.TM_CD">@item.TM_CD</option>
+                                }
+                            }
+                        </select>
+                    }
+
+                </div>
+            </div>
+
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Part Code</label>
+                <div class="col-xs-8 col-sm-9 col-md-6">
+                    @if (FLAG != "Edit")
+                    {
+                        <select id="partCD_val" class="form-control" style="width: 130px">
+                            <option value="">ALL</option>
+                        </select>
+                    }
+                    else
+                    {
+                        <select id="partCD_valEdit" disabled class="form-control" style="width: 130px">
+                            @if (ComboPartCode != null)
+                            {
+
+                                foreach (CENTRAL020106W item in ComboPartCode)
+                                {
+                                <option value="@item.PART_CD">@item.PART_CD</option>
+                                }
+                            }
+                        </select>
+                    }
+
+                </div>
+            </div>
+
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Part Name</label>
+                <div class="col-xs-8 col-sm-9 col-md-6">
+                    @if (FLAG != "Edit")
+                    {
+                        <input type="text" id="PartDesc_val" style="width: 130px" />
+                    }
+                    else
+                    {
+                        string PartDesc = ViewData["GetPartDescRepo"].ToString();
+                        if (PartDesc != null)
+                        {
+                        <input disabled type="text" value="@PartDesc" id="PartDesc_valEdit" style="width: 130px"/>
+                                 
+                        }
+
+                    }
+
+                </div>
+            </div>
+
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Constrain Name 1</label>
+                <div class="col-xs-8 col-sm-9 col-md-6">
+
+                    @if (FLAG != "Edit")
+                    {
+                        <select id="ConsVal1_val" class="form-control" style="width: 130px">
+                            <option value="">ALL</option>
+                            @if (ConstrainNm1 != null)
+                            {
+                                foreach (CENTRAL020106W item in ConstrainNm1)
+                                {
+                                <option value="@item.CONS_DESC">@item.CONS_DESC</option>
+                                }
+                            }
+                        </select>
+                    }
+                    else
+                    {
+                        List<SIMPLEGRID> GetData = (List<SIMPLEGRID>)ViewData["GetEditData"];
+                        <select id="ConsVal1_valEdit" class="form-control" style="width: 130px">
+                            <option value="">ALL</option>
+                            @if (GetData != null)
+                            {
+                                string getCons1 = GetData.Select(p => p.CONS_VAL1).FirstOrDefault();
+                                if (ConstrainNm1 != null)
+                                {
+                                    foreach (CENTRAL020106W item in ConstrainNm1)
+                                    {
+                                <option value="@item.CONS_DESC">@item.CONS_DESC</option>
+                                    }
+                                }
+@*<script>
+                                    var c = $('#ConsVal1_valEdit');
+                                    $('#ConsVal1_valEdit').find(":selected").text('@getCons1');
+                              
+                                </script>*@
+                            }
+
+                        </select>
+                        
+                    }
+
+                </div>
+            </div>
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Value 1</label>
+                <div class="col-xs-8 col-sm-9 col-md-6">
+                    @if (FLAG == "Edit")
+                    {
+                        List<SIMPLEGRID> GetData2 = (List<SIMPLEGRID>)ViewData["GetEditData"];
+                        string Val1 = GetData2.Select(p => p.COL_VI1).FirstOrDefault();
+                        <input type="text" id="ColV1_valEdit" value="@Val1" style="width: 130px" />
+                    }
+                    else
+                    {
+                        <input type="text" id="ColV1_val" style="width: 130px" />
+                    }
+                </div>
+            </div>
+
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Constrain Name 2</label>
+                <div class="col-xs-8 col-sm-9 col-md-6">
+                    @if (FLAG != "Edit")
+                    {
+                        <select id="ConsVal2_val" class="form-control" style="width: 130px">
+                            <option value="">ALL</option>
+                            @if (ConstrainNm1 != null)
+                            {
+                                foreach (CENTRAL020106W item in ConstrainNm1)
+                                {
+                                <option value="@item.CONS_DESC">@item.CONS_DESC</option>
+                                }
+                            }
+                        </select>
+                    }
+                    else
+                    {
+                        List<SIMPLEGRID> GetData = (List<SIMPLEGRID>)ViewData["GetEditData"];
+                        <select id="ConsVal2_valEdit" class="form-control" style="width: 130px">
+                            <option value="">ALL</option>
+                            @if (GetData != null)
+                            {
+                                foreach (CENTRAL020106W item in ConstrainNm1)
+                                {
+                                <option value="@item.CONS_DESC">@item.CONS_DESC</option>
+                                }
+
+                            }
+                        </select>
+                    }
+                </div>
+            </div>
+
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Value 2</label>
+                <div class="col-xs-8 col-sm-9 col-md-6">
+                    @if (FLAG == "Edit")
+                    {
+                        List<SIMPLEGRID> GetData2 = (List<SIMPLEGRID>)ViewData["GetEditData"];
+                        string Val1 = GetData2.Select(p => p.COL_VI2).FirstOrDefault();
+                        <input type="text" id="ColVI2_valEdit" value="@Val1" style="width: 130px" />
+                    }
+                    else
+                    {
+                        <input type="text" id="ColVI2_val" style="width: 130px" />
+                    }
+
+                </div>
+            </div>
+
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Constrain Name 3</label>
+                <div class="col-xs-8 col-sm-9 col-md-6">
+                    @if (FLAG != "Edit")
+                    {
+                        <select id="ConsVal3_val" class="form-control" style="width: 130px">
+                            <option value="">ALL</option>
+                            @if (ConstrainNm1 != null)
+                            {
+                                foreach (CENTRAL020106W item in ConstrainNm1)
+                                {
+                                <option value="@item.CONS_DESC">@item.CONS_DESC</option>
+                                }
+                            }
+                        </select>
+                    }
+                    else
+                    {
+                        List<SIMPLEGRID> GetData = (List<SIMPLEGRID>)ViewData["GetEditData"];
+                        <select id="ConsVal3_valEdit" class="form-control" style="width: 130px">
+                            <option value="">ALL</option>
+                            @if (GetData != null)
+                            {
+                                foreach (CENTRAL020106W item in ConstrainNm1)
+                                {
+                                <option value="@item.CONS_DESC">@item.CONS_DESC</option>
+                                }
+
+                            }
+                        </select>
+                    }
+                </div>
+            </div>
+
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Value 3</label>
+                <div class="col-xs-8 col-sm-9 col-md-6">
+                    @if (FLAG == "Edit")
+                    {
+                        List<SIMPLEGRID> GetData2 = (List<SIMPLEGRID>)ViewData["GetEditData"];
+                        string Val1 = GetData2.Select(p => p.COL_VI3).FirstOrDefault();
+                        <input type="text" id="ColVI3_valEdit" value="@Val1" style="width: 130px" />
+                    }
+                    else
+                    {
+                        <input type="text" id="ColVI3_val" style="width: 130px" />
+                    }
+
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4">
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Format No.</label>
+                <div class="col-xs-8 col-sm-9 col-md-6">
+                    @if (FLAG == "Edit")
+                    {
+                        List<SIMPLEGRID> GetData2 = (List<SIMPLEGRID>)ViewData["GetEditData"];
+                        int Val1 = GetData2.Select(p => p.FORMAT_SEQ).FirstOrDefault();
+                        <input disabled type="text" id="format_No_valEdit" value="@Val1" style="width: 130px" />
+                    }
+                    else
+                    {
+                        <input type="text" id="format_No_val" style="width: 130px" />
+                    }
+
+                </div>
+            </div>
+
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Format Value</label>
+                <div class="col-xs-8 col-sm-9 col-md-6">
+                    @if (FLAG == "Edit")
+                    {
+                        List<SIMPLEGRID> GetData2 = (List<SIMPLEGRID>)ViewData["GetEditData"];
+                        string Val1 = GetData2.Select(p => p.FORMAT_VAL).FirstOrDefault();
+                        <input type="text" id="format_val_valEdit" value="@Val1" style="width: 130px" />
+                    }
+                    else
+                    {
+                        <input type="text" id="format_val_val" style="width: 130px" />
+                    }
+
+                </div>
+            </div>
+
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Valid From</label>
+                <div class="col-xs-8 col-sm-9 col-md-6">
+                    @if (FLAG == "Edit")
+                    {
+                        List<SIMPLEGRID> GetData2 = (List<SIMPLEGRID>)ViewData["GetEditData"];
+                        DateTime Val1 = GetData2.Select(p => p.VALID_FR).FirstOrDefault();
+                        <input type="text" value="@Val1.ToString("dd/MM/yyyy")" class="date-picker" id="valid_fr_valEdit" data-date-format="dd/mm/yyyy" style="width: 130px" />
+                    }
+                    else
+                    {
+                        <input type="text" class="date-picker" id="valid_fr_val" data-date-format="dd/mm/yyyy" style="width: 130px" />
+                    }
+
+                </div>
+            </div>
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Valid To</label>
+                <div class="col-xs-8 col-sm-9 col-md-6">
+                    @if (FLAG == "Edit")
+                    {
+                        List<SIMPLEGRID> GetData2 = (List<SIMPLEGRID>)ViewData["GetEditData"];
+                        DateTime Val1 = GetData2.Select(p => p.VALID_TO).FirstOrDefault();
+                        <input type="text" value="@Val1.ToString("dd/MM/yyyy")" class="date-picker" id="valid_to_valEdit" data-date-format="dd/mm/yyyy" style="width: 130px" />
+                    }
+                    else
+                    {
+                        <input type="text" class="date-picker" id="valid_to_val" data-date-format="dd/mm/yyyy" style="width: 130px" />
+                    }
+
+                </div>
+            </div>
+
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Start Cons1:</label>
+                <div class="col-xs-8 col-sm-9 col-md-6">
+                    @if (FLAG == "Edit")
+                    {
+                        List<SIMPLEGRID> GetData2 = (List<SIMPLEGRID>)ViewData["GetEditData"];
+                        int Val1 = GetData2.Select(p => p.CONS_START1).FirstOrDefault();
+                        <input type="text" id="format_start_val1Edit" value="@Val1" style="width: 40px" />
+                    }
+                    else
+                    {
+                        <input type="text" id="format_start_val1" style="width: 40px" />
+                    }
+
+                </div>
+            </div>
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Len Cons1:</label>
+                <div class="col-xs-8 col-sm-9 col-md-6">
+                    @if (FLAG == "Edit")
+                    {
+                        List<SIMPLEGRID> GetData2 = (List<SIMPLEGRID>)ViewData["GetEditData"];
+                        int Val1 = GetData2.Select(p => p.CONS_LENGTH1).FirstOrDefault();
+                        <input type="text" id="LenCons1Edit" value="@Val1" style="width: 40px" />
+                    }
+                    else
+                    {
+                        <input type="text" id="LenCons1" style="width: 40px" />
+                    }
+
+                </div>
+            </div>
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Start Cons2:</label>
+                <div class="col-xs-8 col-sm-9 col-md-6">
+                    @if (FLAG == "Edit")
+                    {
+                        List<SIMPLEGRID> GetData2 = (List<SIMPLEGRID>)ViewData["GetEditData"];
+                        int Val1 = GetData2.Select(p => p.CONS_START2).FirstOrDefault();
+                        <input type="text" id="format_start_val2Edit" value="@Val1" style="width: 40px" />
+                    }
+                    else
+                    {
+                        <input type="text" id="format_start_val2" style="width: 40px" />
+                    }
+
+                </div>
+            </div>
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Len Cons2:</label>
+                <div class="col-xs-8 col-sm-9 col-md-6">
+                    @if (FLAG == "Edit")
+                    {
+                        List<SIMPLEGRID> GetData2 = (List<SIMPLEGRID>)ViewData["GetEditData"];
+                        int Val1 = GetData2.Select(p => p.CONS_LENGTH2).FirstOrDefault();
+                        <input type="text" id="LenCons2Edit" value="@Val1" style="width: 40px" />
+                    }
+                    else
+                    {
+                        <input type="text" id="LenCons2" style="width: 40px" />
+                    }
+
+                </div>
+            </div>
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Start Cons3:</label>
+                <div class="col-xs-8 col-sm-9 col-md-6">
+                    @if (FLAG == "Edit")
+                    {
+                        List<SIMPLEGRID> GetData2 = (List<SIMPLEGRID>)ViewData["GetEditData"];
+                        int Val1 = GetData2.Select(p => p.CONS_START3).FirstOrDefault();
+                        <input type="text" id="format_start_val3Edit" value="@Val1" style="width: 40px" />
+                    }
+                    else
+                    {
+                        <input type="text" id="format_start_val3" style="width: 40px" />
+                    }
+
+                </div>
+            </div>
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Len Cons3:</label>
+                <div class="col-xs-8 col-sm-9 col-md-6">
+                    @if (FLAG == "Edit")
+                    {
+                        List<SIMPLEGRID> GetData2 = (List<SIMPLEGRID>)ViewData["GetEditData"];
+                        int Val1 = GetData2.Select(p => p.CONS_LENGTH3).FirstOrDefault();
+                        <input type="text" id="LenCons3Edit" value="@Val1" style="width: 40px" />
+                    }
+                    else
+                    {
+                        <input type="text" id="LenCons3" style="width: 40px" />
+                    }
+
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4">
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Start:</label>
+                <div class="col-xs-8 col-sm-9 col-md-6">
+                    @if (FLAG == "Edit")
+                    {
+                        List<SIMPLEGRID> GetData2 = (List<SIMPLEGRID>)ViewData["GetEditData"];
+                        int Val1 = GetData2.Select(p => p.FORMAT_START).FirstOrDefault();
+                        <input type="text" id="starterEdit" value="@Val1" style="width: 40px" />
+                    }
+                    else
+                    {
+                        <input type="text" id="starter" style="width: 40px" />
+                    }
+
+                </div>
+            </div>
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted">Len:</label>
+                <div class="col-xs-8 col-sm-9 col-md-6">
+                    @if (FLAG == "Edit")
+                    {
+                        List<SIMPLEGRID> GetData2 = (List<SIMPLEGRID>)ViewData["GetEditData"];
+                        int Val1 = GetData2.Select(p => p.FORMAT_LENGTH).FirstOrDefault();
+                        <input type="text" id="LenEdit" value="@Val1" style="width: 40px" />
+                    }
+                    else
+                    {
+                        <input type="text" id="Len" style="width: 40px" />
+                    }
+
+                </div>
+            </div>
+
+            <label class="col-xs-4 col-sm-3 col-md-4 control-label text-muted" id="Inform"></label>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            @if (FLAG == "Edit")
+            {
+                <button type="button" class="btn btn-primary btn-xs text-buttom" style="width: 90px" id="BtnSaveEdit" onclick="SaveEdit()">Save</button>
+                <button type="reset" class="btn btn-default btn-xs" style="width: 90px" id="CancelEdit" onclick="CencelSave()">Cancel</button>
+            }
+            else
+            {
+                <button type="button" class="btn btn-primary btn-xs text-buttom" style="width: 90px" id="BtnSaveAdd" onclick="SaveAdd()">Save</button>
+                <button type="reset" class="btn btn-default btn-xs" style="width: 90px" id="CancelAdd" onclick="CencelSave()">Cancel</button>
+            }
+
+
+        </div>
+    </div>
+</form>

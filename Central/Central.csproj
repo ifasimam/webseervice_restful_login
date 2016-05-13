@@ -1325,9 +1325,7 @@
     <Content Include="SQL\CENTRAL030102W\CENTRAL030102WGetComboSuffix.sql" />
     <Content Include="SQL\CENTRAL030102W\CENTRAL030102WGetCountDataCentral2.sql" />
     <Content Include="SQL\CENTRAL030102W\CENTRAL030102WGetSimpleGrid2.sql" />
-    <Content Include="SQL\CENTRALMail\CENTRAL010101WsendEmail.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="SQL\CENTRALMail\CENTRALSendEmail.sql" />
     <Content Include="SQL\CENTRALMessage\CENTRALMessageGetLogDetailSeq.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -1343,6 +1341,7 @@
     <Content Include="SQL\CENTRALMessage\CENTRALMessageInsertLogHeader.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="SQL\CENTRALSystem\CENTRALSystemGetTextValue.sql" />
     <Content Include="SQL\Standards\GetNotificationHeader.sql" />
     <Content Include="SQL\Standards\UpdateNotification.sql" />
     <Content Include="Tdk-Lib\Default lib\Antlr3.Runtime.dll" />
@@ -1856,9 +1855,7 @@
     <None Include="Properties\PublishProfiles\imam.pubxml" />
     <None Include="Properties\PublishProfiles\joseph.pubxml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SQL\CENTRALSystem\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

@@ -31,7 +31,7 @@ namespace Central.Models.CENTRALMail
             try
             {
                 IDBContext db = DatabaseManager.Instance.GetContext();
-                result = db.Execute("CENTRALMail/CENTRAL010101WsendEmail",
+                result = db.Execute("CENTRALMail/CENTRALSendEmail",
                     new
                     {
                         PROCESS_ID = processID,

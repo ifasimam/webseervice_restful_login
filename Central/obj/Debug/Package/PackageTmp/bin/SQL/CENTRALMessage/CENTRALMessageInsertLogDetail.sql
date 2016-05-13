@@ -1,0 +1,22 @@
+﻿INSERT INTO [dbo].[TB_R_LOG_D]
+		(
+		[LOG_SEQ],
+		[PROCESS_ID]
+		,[MSG_ID]
+		,[LOCATION]
+		,[MSG_DESC]
+		,[CREATED_BY]
+		,[CREATED_DT]
+		,[CHANGED_BY]
+		,[CHANGED_DT])
+	VALUES
+		(
+		@LOG_SEQ,
+		@PROCESS_ID
+		,@MSG_ID
+		,@LOCATION
+		,@MSG_DESC
+		,@CREATED_BY
+		,GETDATE()
+		,@CREATED_BY
+		,GETDATE())

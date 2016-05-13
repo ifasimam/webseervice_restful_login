@@ -1,0 +1,250 @@
+﻿@using Central.Models.CENTRAL030102W;
+
+@{
+    List<CENTRAL030102W> ComboPartType = (List<CENTRAL030102W>)ViewData["ComboPartType"];
+    List<CENTRAL030102W> ComboFormat = (List<CENTRAL030102W>)ViewData["ComboFormat"];
+    List<CENTRAL030102W> ComboStatus = (List<CENTRAL030102W>)ViewData["ComboStatus"];
+    List<CENTRAL030102W> ComboSuffix = (List<CENTRAL030102W>)ViewData["ComboSuffix"];
+    
+}
+<form role="form" class="form-horizontal _criteria" id="searchForm">
+    <div class="row" id="allclear">
+        <div class="col-xs-12 col-sm-6 col-md-2">
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-4 control-label required-left text-muted">Source</label>
+
+                <div class="col-xs-8 col-sm-9 col-md-8">
+                    <select id="sourceCmb" class="form-control" onchange="ChangeGrid()" style="width: 130px">
+                        <option value="">Transaction</option>
+                         <option value="">History</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group form-group-xs">
+                <label class="col-xs-5 col-sm-4 col-md-4 control-label required-left text-muted">Frame No</label>
+
+                <div class="col-xs-8 col-sm-9 col-md-8 searchCr"  >
+                    <input type="text" id="frameNo"  style="width: 130px" />
+                </div>
+            </div>
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-4 control-label required-left text-muted">Katashik</label>
+                <div class="col-xs-8 col-sm-9 col-md-8">
+                    <div class="input-group">
+
+                        <input id="katashik" style="width: 130px" type="text" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-4 control-label required-left text-muted">Suffix</label>
+                <div class="col-xs-8 col-sm-9 col-md-8">
+                    <select id="suffix" class="form-control" style="width: 130px">
+                        <option value="">ALL</option>
+                         @if (ComboSuffix != null)
+                        {
+                            foreach (CENTRAL030102W itemsS in ComboSuffix)
+                            {
+                                <option value="@itemsS.SALES_SFX">@itemsS.SALES_SFX</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-4 col-sm-3 col-md-2">
+
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-6 control-label text-muted">Part Type</label>
+                <div class="col-xs-8 col-sm-9 col-md-6">
+                    <select id="partType" class="form-control" style="width: 130px">
+                        <option value="">ALL</option>
+                        @foreach (CENTRAL030102W item in ComboPartType)
+                        {
+                            <option value="@item.PART_CD">@item.PART_CD</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-6 control-label text-muted">Part No</label>
+                <div class="col-xs-8 col-sm-9 col-md-6">
+                    <input type="text" id="partNo" style="width: 130px" />
+                </div>
+            </div>
+
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-6 control-label text-muted">Prod From</label>
+                <div class="col-xs-8 col-sm-9 col-md-6">
+                  <input type="text" class="date-picker" data-date-format="dd/mm/yyyy" id="ProdFrom" style="width: 130px" />
+                </div>
+            </div>
+
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-6 control-label text-muted">Status</label>
+                <div class="col-xs-8 col-sm-9 col-md-6">
+                    <select id="status" class="form-control" style="width: 130px">
+                        <option value="">ALL</option>
+                        @if (ComboStatus != null)
+                        {
+                            foreach (CENTRAL030102W items in ComboStatus)
+                            {
+                                <option value="@items.SYSTEM_VALUE_TXT">@items.SYSTEM_VALUE_TXT</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-xs-4 col-sm-3 col-md-2">
+
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-7 control-label text-muted">Format</label>
+                <div class="col-xs-8 col-sm-9 col-md-5">
+                    <select id="Formatt" class="form-control" style="width: 130px">
+                        <option value="">ALL</option>
+                        @foreach (CENTRAL030102W item in ComboFormat)
+                        {
+                            <option value="@item.FORMAT_SEQ">@item.FORMAT_SEQ</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-7 control-label text-muted"></label>
+                <div class="col-xs-8 col-sm-9 col-md-5">
+                    <label type="text"  style="width: 130px">&nbsp;</label>
+
+                </div>
+            </div>
+
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-7 control-label text-muted">To</label>
+                <div class="col-xs-8 col-sm-9 col-md-5">
+                    <input type="text" class="date-picker" data-date-format="dd/mm/yyyy" id="ProdTo" style="width: 130px" />
+                </div>
+            </div>
+
+
+
+
+        </div>
+
+
+
+        <div class="col-xs-12 col-sm-12 col-md-2">
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-7 control-label text-muted">Start</label>
+                <div class="col-xs-8 col-sm-9 col-md-5">
+                    <input type="text" id="startt" style="width: 60px" />
+                </div>
+
+
+            </div>
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-7 control-label text-muted">Len</label>
+                <div class="col-xs-8 col-sm-9 col-md-5">
+                    <input type="text" id="Lenn" style="width: 60px" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-2">
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-3 control-label text-muted">From</label>
+                <div class="col-xs-8 col-sm-9 col-md-9">
+                    <input type="text" id="Fromm" style="width: 100px" />
+                </div>
+            </div>
+            <div class="col-xs-8 col-sm-9 col-md-5">
+                <label type="text"   style="width: 130px">&nbsp;</label>
+
+            </div>
+            <div class="col-xs-8 col-sm-9 col-md-5">
+                <label type="text"   style="width: 130px">&nbsp;</label>
+
+            </div>
+            <div class="col-xs-8 col-sm-9 col-md-5">
+                <label type="text"   style="width: 130px">&nbsp;</label>
+
+            </div>
+            <div class="col-xs-8 col-sm-9 col-md-5">
+                <label type="text"   style="width: 130px">&nbsp;</label>
+
+            </div>
+            <div class="col-xs-8 col-sm-9 col-md-5">
+                <label type="text"  style="width: 130px">&nbsp;</label>
+
+            </div>
+            <div class="col-xs-8 col-sm-9 col-md-5">
+                <label type="text"  style="width: 130px">&nbsp;</label>
+
+            </div>
+            <div class="col-xs-8 col-sm-9 col-md-5">
+                <label type="text"   style="width: 130px">&nbsp;</label>
+
+            </div>
+            <div class="col-xs-8 col-sm-9 col-md-5">
+                <label type="text"  style="width: 130px">&nbsp;</label>
+
+            </div>
+
+
+
+
+
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-2">
+            <div class="form-group form-group-xs">
+                <label class="col-xs-4 col-sm-3 col-md-2 control-label text-muted">To</label>
+                <div class="col-xs-8 col-sm-9 col-md-10">
+                    <input type="text" id="Too" style="width: 100px" />
+                </div>
+            </div>
+            <div class="col-xs-8 col-sm-9 col-md-5">
+                <label type="text" id="idDesc" style="width: 130px">&nbsp;</label>
+
+            </div>
+            <div class="col-xs-8 col-sm-9 col-md-5">
+                <label type="text" id="idDesc" style="width: 130px">&nbsp;</label>
+
+            </div>
+            <div class="col-xs-8 col-sm-9 col-md-5">
+                <label type="text" id="idDesc" style="width: 130px">&nbsp;</label>
+
+            </div>
+            <div class="col-xs-8 col-sm-9 col-md-5">
+                <label type="text" id="idDesc" style="width: 130px">&nbsp;</label>
+
+            </div>
+            <div class="col-xs-8 col-sm-9 col-md-5">
+                <label type="text" id="idDesc" style="width: 130px">&nbsp;</label>
+
+            </div>
+            <div class="col-xs-8 col-sm-9 col-md-5">
+                <label type="text" id="idDesc" style="width: 130px">&nbsp;</label>
+
+            </div>
+            <div class="col-xs-8 col-sm-9 col-md-5">
+                <label type="text" id="idDesc" style="width: 130px">&nbsp;</label>
+
+            </div>
+            <div class="col-xs-8 col-sm-9 col-md-5">
+                <label type="text" id="idDesc" style="width: 130px">&nbsp;</label>
+
+            </div>
+
+
+
+        </div>
+
+
+    </div>
+</form>
